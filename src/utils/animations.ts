@@ -17,24 +17,31 @@ export function setupIntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in-up');
+          // Check if already animated to prevent re-animation
+          const hasAnimated = entry.target.getAttribute('data-animated') === 'true';
           
-          // Animate child elements with staggered delays
-          const children = entry.target.querySelectorAll('.animate-on-scroll');
-          children.forEach((child, index) => {
-            setTimeout(() => {
-              child.classList.add('animate-fade-in-up');
-            }, index * 100);
-          });
-          
-          // Custom callback
-          if (onIntersect) {
-            onIntersect(entry);
+          if (!hasAnimated) {
+            entry.target.classList.add('animate-fade-in-up');
+            entry.target.setAttribute('data-animated', 'true');
+            
+            // Animate child elements with staggered delays (only once)
+            const children = entry.target.querySelectorAll('.animate-on-scroll:not([data-animated="true"])');
+            children.forEach((child, index) => {
+              if (child.getAttribute('data-animated') !== 'true') {
+                setTimeout(() => {
+                  child.classList.add('animate-fade-in-up');
+                  child.setAttribute('data-animated', 'true');
+                }, index * 100);
+              }
+            });
+            
+            // Custom callback
+            if (onIntersect) {
+              onIntersect(entry);
+            }
           }
-        } else {
-          // Remove animation class when not visible so it can re-animate
-          entry.target.classList.remove('animate-fade-in-up');
         }
+        // Don't remove animation class - keep it animated once
       });
     },
     options || {

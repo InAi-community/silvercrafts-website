@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import StaggeredMenu from './StaggeredMenu';
+import { smoothScrollToElement } from '../utils/animations';
 
 interface NavbarProps {
   onNavigate: (page: 'home' | 'quote') => void;
@@ -98,7 +99,13 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
     { 
       label: 'Get Quote', 
       ariaLabel: 'Get a quote', 
-      onClick: () => onNavigate('quote')
+      onClick: () => {
+        onNavigate('quote');
+        // Scroll to hero section after navigation
+        setTimeout(() => {
+          smoothScrollToElement('quote-hero');
+        }, 100);
+      }
     },
     { 
       label: 'Contact', 

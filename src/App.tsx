@@ -9,12 +9,14 @@ function App() {
 
   const handleNavigate = (page: 'home' | 'quote') => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Don't scroll here - let individual page handlers manage scrolling
   };
 
-  // Scroll to top when page changes or on reload
+  // Scroll to top only when navigating to home page
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (currentPage === 'home') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }, [currentPage]);
 
   return (

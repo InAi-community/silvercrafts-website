@@ -1,10 +1,8 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, ShoppingCart, Sparkles, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { categories, products, Product } from '../data/products';
 import BackButton from '../components/BackButton';
-import { RETAILER_LOGOS, QUOTE_STEPS, TIMINGS, CAROUSEL_CONFIG, COLORS } from '../config/constants';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { smoothScrollToElement } from '../utils/animations';
+import { RETAILER_LOGOS, QUOTE_STEPS, CAROUSEL_CONFIG } from '../config/constants';
 
 interface QuotationPageProps {
   onNavigate: (page: 'home' | 'quote') => void;
@@ -15,12 +13,12 @@ interface QuoteItem {
   quantity: number;
 }
 
-
 export default function QuotationPage({ onNavigate }: QuotationPageProps) {
+  // State Management
+  const [allProducts] = useState<Product[]>(products); // All products from data
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products); // Currently displayed products
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
   const categoryCarouselRef = useRef<HTMLDivElement>(null);
-  const carouselResumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
@@ -32,18 +30,36 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     gstin: ''
   });
 
-  // Filter products based on selected category
-  const filteredProducts = useMemo(() => {
-    if (!products || products.length === 0) {
-      return [];
+  // Initialize: Show all products on mount
+  useEffect(() => {
+    console.log('Component mounted. Total products:', allProducts.length);
+    setFilteredProducts(allProducts);
+  }, [allProducts]);
+
+  // Handle category selection
+  const handleCategoryClick = useCallback((categoryId: string) => {
+    console.log('Category clicked:', categoryId);
+    setSelectedCategory(categoryId);
+
+    if (categoryId === 'all') {
+      // Show all products
+      console.log('Showing all products:', allProducts.length);
+      setFilteredProducts(allProducts);
+    } else {
+      // Filter by category
+      const filtered = allProducts.filter((p) => p.category === categoryId);
+      console.log(`Filtered products for ${categoryId}:`, filtered.length);
+      setFilteredProducts(filtered);
     }
-    
-    if (selectedCategory === 'all') {
-      return [...products]; // Return all products
-    }
-    
-    return products.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
+
+    // Scroll to products section
+    setTimeout(() => {
+      const productsSection = document.getElementById('products-section');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }, [allProducts]);
 
   const addToQuote = useCallback((product: Product) => {
     setQuoteItems((prevItems) => {
@@ -54,20 +70,6 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       return [...prevItems, { product, quantity: 1 }];
     });
   }, []);
-
-  const totalWeight = useMemo(() => {
-    return quoteItems.reduce((total, item) => {
-      const weightRange = item.product.weightRange;
-      const match = weightRange.match(/(\d+)-(\d+)/);
-      if (match) {
-        const min = parseInt(match[1]);
-        const max = parseInt(match[2]);
-        const avg = (min + max) / 2;
-        return total + avg;
-      }
-      return total;
-    }, 0);
-  }, [quoteItems]);
 
   const uniqueProductCount = quoteItems.length;
 
@@ -87,40 +89,19 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     }, 100);
   };
 
-  // Setup scroll animations
-  useScrollAnimation([selectedCategory]);
+  const categoriesWithAll = [{ id: 'all', name: 'All Categories', image: null }, ...categories];
 
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (carouselResumeTimeoutRef.current) {
-        clearTimeout(carouselResumeTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Scroll to products section on initial load
-  useEffect(() => {
-    if (selectedCategory === 'all' && filteredProducts.length > 0) {
-      const timer = setTimeout(() => {
-        const productsSection = document.getElementById('products-section');
-        if (productsSection) {
-          const rect = productsSection.getBoundingClientRect();
-          if (rect.top > window.innerHeight || rect.bottom < 0 || window.scrollY === 0) {
-            smoothScrollToElement('products-section');
-          }
-        }
-      }, TIMINGS.scrollDelay);
-      return () => clearTimeout(timer);
-    }
-  }, [selectedCategory, filteredProducts.length]);
+  console.log('Render - Selected category:', selectedCategory);
+  console.log('Render - Filtered products count:', filteredProducts.length);
 
   return (
     <div className="bg-[#FAF9F7] min-h-screen">
       <BackButton onNavigate={onNavigate} />
-      <section className="pt-32 pb-16 px-6 bg-[#FDFBF7] border-b border-[#EDEAE2]">
+      
+      {/* Hero Section */}
+      <section id="quote-hero" className="pt-32 pb-16 px-6 bg-[#FDFBF7] border-b border-[#EDEAE2]">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-on-scroll">
+          <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl font-bold text-[#1C1C1C] leading-tight">
               Silver Crafts
             </h1>
@@ -129,7 +110,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
             </h2>
             
             {/* Milestone Steps */}
-            <div className="flex flex-col gap-3 py-4 animate-on-scroll">
+            <div className="flex flex-col gap-3 py-4">
               {QUOTE_STEPS.map((milestone, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="flex flex-col items-center">
@@ -153,7 +134,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
             </div>
           </div>
 
-          <div className="h-[420px] rounded-2xl overflow-hidden border border-[#E8E4DA] bg-white animate-on-scroll">
+          <div className="h-[420px] rounded-2xl overflow-hidden border border-[#E8E4DA] bg-white">
             <img
               src="/albums/Second page.jpg"
               alt="Silver manufacturing"
@@ -163,188 +144,146 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </div>
       </section>
 
+      {/* Categories Section */}
       <section id="categories-section" className="py-14 px-6 bg-[#FAF9F7] border-b border-[#EDEAE2]">
-        <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h3 className="text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-10 animate-on-scroll">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-10">
             Select Category
           </h3>
 
-          <div className="relative overflow-hidden animate-on-scroll" style={{ position: 'relative' }}>
+          <div className="relative" style={{ position: 'relative', minHeight: '150px' }}>
+            {/* Navigation Buttons */}
             <button
               onClick={(e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                if (categoryCarouselRef.current) {
-                  setIsCarouselPaused(true);
-                  const currentScroll = categoryCarouselRef.current.scrollLeft;
-                  categoryCarouselRef.current.scrollTo({ 
-                    left: currentScroll - CAROUSEL_CONFIG.scrollAmount, 
+                const carousel = categoryCarouselRef.current;
+                if (carousel) {
+                  carousel.scrollBy({ 
+                    left: -CAROUSEL_CONFIG.scrollAmount, 
                     behavior: 'smooth' 
                   });
-                  if (carouselResumeTimeoutRef.current) {
-                    clearTimeout(carouselResumeTimeoutRef.current);
-                  }
-                  carouselResumeTimeoutRef.current = setTimeout(() => {
-                    setIsCarouselPaused(false);
-                  }, TIMINGS.carouselResume);
                 }
               }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-50 bg-white hover:bg-gray-100 border-2 border-[#C06014] rounded-full p-3 shadow-xl transition-all duration-300 hover:scale-110"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#C06014] rounded-full p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
               aria-label="Scroll categories left"
               type="button"
-              style={{ pointerEvents: 'auto', cursor: 'pointer' }}
             >
               <ChevronLeft className="w-6 h-6 text-[#C06014]" />
             </button>
             <button
               onClick={(e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                if (categoryCarouselRef.current) {
-                  setIsCarouselPaused(true);
-                  const currentScroll = categoryCarouselRef.current.scrollLeft;
-                  categoryCarouselRef.current.scrollTo({ 
-                    left: currentScroll + CAROUSEL_CONFIG.scrollAmount, 
+                const carousel = categoryCarouselRef.current;
+                if (carousel) {
+                  carousel.scrollBy({ 
+                    left: CAROUSEL_CONFIG.scrollAmount, 
                     behavior: 'smooth' 
                   });
-                  if (carouselResumeTimeoutRef.current) {
-                    clearTimeout(carouselResumeTimeoutRef.current);
-                  }
-                  carouselResumeTimeoutRef.current = setTimeout(() => {
-                    setIsCarouselPaused(false);
-                  }, TIMINGS.carouselResume);
                 }
               }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-50 bg-white hover:bg-gray-100 border-2 border-[#C06014] rounded-full p-3 shadow-xl transition-all duration-300 hover:scale-110"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#C06014] rounded-full p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
               aria-label="Scroll categories right"
               type="button"
-              style={{ pointerEvents: 'auto', cursor: 'pointer' }}
             >
               <ChevronRight className="w-6 h-6 text-[#C06014]" />
             </button>
-            <div 
-              ref={categoryCarouselRef}
-              className={`flex gap-4 w-max overflow-x-auto scrollbar-hide ${isCarouselPaused ? '' : 'animate-scroll-left'}`}
-              style={{ scrollBehavior: 'smooth', position: 'relative', zIndex: 1 }}
-              onMouseEnter={() => setIsCarouselPaused(true)}
-              onMouseLeave={() => {
-                if (carouselResumeTimeoutRef.current) {
-                  clearTimeout(carouselResumeTimeoutRef.current);
-                }
-                carouselResumeTimeoutRef.current = setTimeout(() => {
-                  setIsCarouselPaused(false);
-                }, TIMINGS.carouselMouseLeave);
-              }}
-            >
-              {[
-                { id: 'all', name: 'All Categories', image: null },
-                ...categories,
-                { id: 'all', name: 'All Categories', image: null },
-                ...categories
-              ].map((category, index) => {
-                const isSelected = selectedCategory === category.id;
-                return (
-                <button
-                  key={`${category.id}-${index}`}
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setSelectedCategory(category.id);
-                    setIsCarouselPaused(true);
-                    
-                    if (carouselResumeTimeoutRef.current) {
-                      clearTimeout(carouselResumeTimeoutRef.current);
-                    }
-                    carouselResumeTimeoutRef.current = setTimeout(() => {
-                      setIsCarouselPaused(false);
-                    }, TIMINGS.carouselResume);
-                    
-                    smoothScrollToElement('products-section');
-                  }}
-                  className={`group relative flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden border ${
-                    isSelected ? 'border-[#C06014] bg-[#FCF6F0]' : 'border-[#E8E4DA] bg-white'
-                  } transition-colors duration-300 cursor-pointer`}
-                  aria-label={`Select ${category.name} category`}
-                >
-                  {category.image ? (
-                    <>
-                      <img
-                        src={category.image}
-                        alt={category.name}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          console.error('Failed to load category image:', category.image);
-                          // Show placeholder with category name
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.style.backgroundColor = '#F5F5F5';
-                          }
-                        }}
-                      />
-                      <div className="absolute inset-x-3 bottom-3 rounded-full bg-white/85 px-3 py-1 text-[11px] font-medium text-[#1C1C1C] tracking-wide">
-                        {category.name}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="absolute inset-0 bg-white"></div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-[11px] font-semibold text-[#1C1C1C] px-3 py-1 rounded-full border border-[#E8E4DA]">
+            
+            {/* Carousel Container */}
+            <div className="overflow-hidden">
+              <div 
+                ref={categoryCarouselRef}
+                className="flex gap-4 overflow-x-auto scrollbar-hide px-12"
+                style={{ 
+                  scrollBehavior: 'smooth', 
+                  position: 'relative', 
+                  zIndex: 1
+                }}
+              >
+                {categoriesWithAll.map((category, index) => {
+                  const isSelected = selectedCategory === category.id;
+                  return (
+                  <button
+                    key={`${category.id}-${index}`}
+                    type="button"
+                    onClick={() => handleCategoryClick(category.id)}
+                    className={`group relative flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden border-2 ${
+                      isSelected ? 'border-[#C06014] bg-[#FCF6F0] shadow-lg' : 'border-[#E8E4DA] bg-white'
+                    } transition-all duration-300 cursor-pointer hover:shadow-lg`}
+                    aria-label={`Select ${category.name} category`}
+                  >
+                    {category.image ? (
+                      <>
+                        <img
+                          src={category.image}
+                          alt={category.name}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.style.backgroundColor = '#F5F5F5';
+                            }
+                          }}
+                        />
+                        <div className="absolute inset-x-3 bottom-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold text-[#1C1C1C] tracking-wide shadow-sm">
+                          {category.name}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#C06014]/10 to-[#C06014]/5">
+                        <span className="text-sm font-bold text-[#C06014] px-4 py-2 rounded-full border-2 border-[#C06014] bg-white">
                           All
                         </span>
                       </div>
-                    </>
-                  )}
-                </button>
-                );
-              })}
+                    )}
+                  </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="products-section" className="py-20 px-6 bg-[#FAF9F7]" key={selectedCategory}>
+      {/* Products Section - Always Visible, No Animations */}
+      <section id="products-section" className="py-20 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8 text-[#1C1C1C]">
-            {selectedCategory === 'all' 
-              ? `All Products (${filteredProducts?.length || 0})` 
-              : `${categories.find(c => c.id === selectedCategory)?.name || 'Products'} (${filteredProducts?.length || 0})`
-            }
-          </h2>
-          {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProducts.map((product, idx) => (
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-2">
+              {selectedCategory === 'all' ? 'All Products' : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
+            </h2>
+            <p className="text-base text-[#5A5A5A]">
+              {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} available
+            </p>
+          </div>
+
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.map((product) => (
                 <div
-                  key={`${selectedCategory}-${product.id}-${idx}`}
-                  className="bg-white rounded-2xl overflow-hidden border border-[#E8E4DA]"
-                  style={{ 
-                    opacity: 1,
-                    transform: 'translateY(0)'
-                  }}
+                  key={product.id}
+                  className="bg-white rounded-xl overflow-hidden border-2 border-[#E8E4DA] hover:border-[#C06014] hover:shadow-xl transition-all duration-300 group"
                 >
-                  <div className="relative h-60 overflow-hidden bg-[#F5F5F5] flex items-center justify-center">
+                  <div className="relative h-56 overflow-hidden bg-gradient-to-br from-[#FDFBF7] to-[#F5F5F5] flex items-center justify-center p-4">
                     <img
-                      key={`img-${product.id}-${selectedCategory}-${idx}`}
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain p-4"
+                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = '/logos/Main logo.png';
-                        target.className = 'w-full h-full object-contain p-8 opacity-50';
+                        target.className = 'w-full h-full object-contain opacity-30';
                       }}
-                      loading="eager"
                     />
                   </div>
-                  <div className="p-6 space-y-3">
-                    <h3 className="text-lg font-semibold text-[#1C1C1C]">{product.name}</h3>
-                    <p className="text-sm text-[#5A5A5A]">Weight: {product.weightRange}</p>
+                  <div className="p-5">
+                    <h3 className="text-base font-semibold text-[#1C1C1C] mb-3 min-h-[48px]">
+                      {product.name}
+                    </h3>
                     <button
                       onClick={() => addToQuote(product)}
-                      className="w-full px-6 py-3 bg-[#C06014] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#a95311] flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2.5 bg-[#C06014] text-white rounded-full text-sm font-medium transition-all duration-300 hover:bg-[#a95311] hover:shadow-lg flex items-center justify-center gap-2"
                     >
                       <Plus className="w-4 h-4" />
                       Add to Quote
@@ -354,13 +293,24 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-lg text-[#5A5A5A]">No products found in this category.</p>
+            <div className="text-center py-20">
+              <div className="w-24 h-24 bg-[#F5F5F5] rounded-full flex items-center justify-center mx-auto mb-6">
+                <ShoppingCart className="w-12 h-12 text-[#C06014] opacity-40" />
+              </div>
+              <h3 className="text-xl font-semibold text-[#1C1C1C] mb-2">No Products Available</h3>
+              <p className="text-[#5A5A5A]">No products found in this category.</p>
+              <button
+                onClick={() => handleCategoryClick('all')}
+                className="mt-6 px-6 py-3 bg-[#C06014] text-white rounded-full text-sm font-medium hover:bg-[#a95311] transition-colors"
+              >
+                View All Products
+              </button>
             </div>
           )}
         </div>
       </section>
 
+      {/* Quote Basket Button */}
       {quoteItems.length > 0 && (
         <button
           onClick={() => setShowSidebar(!showSidebar)}
@@ -374,6 +324,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </button>
       )}
 
+      {/* Sidebar Overlay */}
       {showSidebar && (
         <div
           className="fixed inset-0 bg-[#1A1A1A]/50 z-40"
@@ -381,6 +332,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         ></div>
       )}
 
+      {/* Quote Sidebar */}
       <div
         className={`fixed top-0 right-0 h-full w-full md:w-[450px] bg-white border-l border-[#E8E4DA] z-50 transform transition-transform duration-300 ${
           showSidebar ? 'translate-x-0' : 'translate-x-full'
@@ -452,13 +404,14 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </div>
       </div>
 
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h3 className="text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-8 animate-on-scroll">
+      {/* Trusted By Section */}
+      <section className="py-16 px-6 bg-[#FAF9F7]">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-8">
             Trusted by the best
           </h3>
 
-          <div className="relative overflow-hidden animate-on-scroll">
+          <div className="relative overflow-hidden">
             <div className="flex gap-10 animate-scroll-left w-max">
               {[...RETAILER_LOGOS, ...RETAILER_LOGOS].map((brand, index) => (
                 <div
@@ -477,6 +430,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </div>
       </section>
 
+      {/* Quote Form Modal */}
       {showQuoteForm && (
         <div className="fixed inset-0 bg-[#1A1A1A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full relative animate-scale-in border border-[#E8E4DA] shadow-lg">
@@ -556,6 +510,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </div>
       )}
 
+      {/* Confirmation Modal */}
       {showConfirmation && (
         <div className="fixed inset-0 bg-[#1A1A1A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-2xl p-12 max-w-lg w-full text-center relative animate-scale-in border border-[#E8E4DA] shadow-lg">

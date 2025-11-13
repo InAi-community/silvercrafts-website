@@ -159,7 +159,13 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 <div
                   key={`${album.src}-${index}`}
                   className="flex-shrink-0 w-48 cursor-pointer"
-                  onClick={() => onNavigate('quote')}
+                  onClick={() => {
+                    onNavigate('quote');
+                    // Scroll to hero section after navigation
+                    setTimeout(() => {
+                      smoothScrollToElement('quote-hero');
+                    }, 100);
+                  }}
                 >
                   <div className="relative h-60 rounded-xl overflow-hidden border border-[#E8E4DA] bg-white">
                     <img
@@ -270,7 +276,13 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             Plan your next silver collection with us
           </h2>
           <button
-            onClick={() => onNavigate('quote')}
+            onClick={() => {
+              onNavigate('quote');
+              // Scroll to hero section after navigation
+              setTimeout(() => {
+                smoothScrollToElement('quote-hero');
+              }, 100);
+            }}
             className="px-8 py-4 bg-[#C06014] text-white rounded-full text-base font-semibold transition-colors duration-300 hover:bg-[#a95311] flex items-center justify-center gap-2 mx-auto"
           >
             Request a Quote
