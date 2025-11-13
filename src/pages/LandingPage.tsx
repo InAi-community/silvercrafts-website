@@ -1,110 +1,39 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Users, Factory, Wrench, Award, ArrowRight, TrendingUp, Star, Truck, Receipt, IndianRupee } from 'lucide-react';
+import { TrendingUp, Star, Truck, Receipt, IndianRupee, ArrowRight } from 'lucide-react';
+import { 
+  FACTORY_IMAGES, 
+  HOME_CAROUSEL_IMAGES, 
+  RETAILER_LOGOS, 
+  CERTIFICATIONS, 
+  FEATURES, 
+  TIMINGS 
+} from '../config/constants';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { smoothScrollToElement } from '../utils/animations';
 
 interface LandingPageProps {
   onNavigate: (page: 'home' | 'quote') => void;
 }
 
-const factoryImages = [
-  '/Factory images/silver crafts1217.jpg',
-  '/Factory images/silver crafts1248.jpg',
-  '/Factory images/silver crafts1286.jpg',
-  '/Factory images/silver crafts1338.jpg',
-  '/Factory images/silver crafts1385.jpg',
-  '/Factory images/silver crafts1528.jpg',
-  '/Factory images/silver crafts1559.jpg',
-  '/Factory images/silver crafts1835.jpg',
-  '/Factory images/silver crafts1887.jpg',
-  '/Factory images/silver crafts1922.jpg',
-  '/Factory images/silver crafts1976.jpg',
-  '/Factory images/silver crafts2000.jpg',
-  '/Factory images/silver crafts2085.jpg',
-  '/Factory images/silver crafts2122.jpg',
-  '/Factory images/silver crafts2306.jpg'
-];
-
-const leftCarouselImages = factoryImages.slice(0, 8);
-const rightCarouselImages = factoryImages.slice(8, 15);
-
-const albumImages = [
-  { src: '/Home page carousel/1.webp', caption: 'Silver Craft 1' },
-  { src: '/Home page carousel/2.webp', caption: 'Silver Craft 2' },
-  { src: '/Home page carousel/3.webp', caption: 'Silver Craft 3' },
-  { src: '/Home page carousel/4.webp', caption: 'Silver Craft 4' },
-  { src: '/Home page carousel/5.webp', caption: 'Silver Craft 5' },
-  { src: '/Home page carousel/6.webp', caption: 'Silver Craft 6' },
-  { src: '/Home page carousel/7.webp', caption: 'Silver Craft 7' },
-  { src: '/Home page carousel/8.webp', caption: 'Silver Craft 8' },
-  { src: '/Home page carousel/9.webp', caption: 'Silver Craft 9' },
-  { src: '/Home page carousel/10.webp', caption: 'Silver Craft 10' },
-  { src: '/Home page carousel/11.webp', caption: 'Silver Craft 11' },
-  { src: '/Home page carousel/12.webp', caption: 'Silver Craft 12' },
-  { src: '/Home page carousel/13.webp', caption: 'Silver Craft 13' },
-  { src: '/Home page carousel/14.webp', caption: 'Silver Craft 14' },
-  { src: '/Home page carousel/15.webp', caption: 'Silver Craft 15' },
-  { src: '/Home page carousel/16.webp', caption: 'Silver Craft 16' }
-];
-
-const retailerLogos = [
-  { name: 'Khazana', logo: '/logos/Khazana.png' },
-  { name: 'GRT', logo: '/logos/grt.webp' },
-  { name: 'Kumaran', logo: '/logos/kumaran.png' },
-  { name: 'Lalitha', logo: '/logos/lalitha.webp' },
-  { name: 'Malabar', logo: '/logos/Malabar.png' },
-  { name: 'Pothys', logo: '/logos/pothys.webp' },
-  { name: 'Saravana Selvarathinam', logo: '/logos/saravana selvarathinam.png' },
-  { name: 'Thangamayil', logo: '/logos/Thangamayil.png' }
-];
+// Convert carousel images array to objects with src and caption
+const albumImages = HOME_CAROUSEL_IMAGES.map((src, index) => ({
+  src,
+  caption: `Silver Craft ${index + 1}`
+}));
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
   const [leftImageIndex, setLeftImageIndex] = useState(0);
-  const [rightImageIndex, setRightImageIndex] = useState(Math.floor(factoryImages.length / 2));
+  const [rightImageIndex, setRightImageIndex] = useState(Math.floor(FACTORY_IMAGES.length / 2));
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-            // Also animate child elements with staggered delays
-            const children = entry.target.querySelectorAll('.animate-on-scroll');
-            children.forEach((child, index) => {
-              setTimeout(() => {
-                child.classList.add('animate-fade-in-up');
-              }, index * 100);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
-    );
+  // Setup scroll animations
+  useScrollAnimation();
 
-    const elements = document.querySelectorAll('.animate-on-scroll');
-    elements.forEach((el) => observer.observe(el));
-    
-    // Also observe sections for section-level animations
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => {
-      if (!section.querySelector('.animate-on-scroll')) {
-        section.classList.add('animate-on-scroll');
-        observer.observe(section);
-      }
-    });
-
-    return () => {
-      elements.forEach((el) => observer.unobserve(el));
-      sections.forEach((section) => observer.unobserve(section));
-      observer.disconnect();
-    };
-  }, []);
-
-  // Cycle through all factory images - switches every 3 seconds
+  // Cycle through all factory images
   useEffect(() => {
     const interval = setInterval(() => {
-      setLeftImageIndex((prev) => (prev + 1) % factoryImages.length);
-      setRightImageIndex((prev) => (prev + 1) % factoryImages.length);
-    }, 3000);
+      setLeftImageIndex((prev) => (prev + 1) % FACTORY_IMAGES.length);
+      setRightImageIndex((prev) => (prev + 1) % FACTORY_IMAGES.length);
+    }, TIMINGS.imageTransition);
 
     return () => clearInterval(interval);
   }, []);
@@ -129,7 +58,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             </p>
             <div className="flex gap-4 pt-4">
               <button
-                onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => smoothScrollToElement('categories')}
                 className="px-8 py-3 bg-[#C06014] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#a95311]"
               >
                 Explore Products
@@ -143,7 +72,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <div className="absolute inset-0 flex flex-row">
           {/* Left Side - Cycles through all images */}
           <div className="w-1/2 h-full relative overflow-hidden">
-            {factoryImages.map((image, index) => (
+            {FACTORY_IMAGES.map((image, index) => (
               <div 
                 key={`left-${index}`}
                 className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -166,7 +95,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
           {/* Right Side - Cycles through all images (offset) */}
           <div className="w-1/2 h-full relative overflow-hidden">
-            {factoryImages.map((image, index) => (
+            {FACTORY_IMAGES.map((image, index) => (
               <div 
                 key={`right-${index}`}
                 className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -201,13 +130,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         </div>
         <div className="max-w-5xl mx-auto mt-12 animate-on-scroll">
           <div className="flex flex-nowrap justify-center items-center gap-8 md:gap-12 overflow-x-hidden">
-            {[
-              { src: '/Certifications/hallmark.svg', alt: 'Hallmark Certified', name: 'Hallmark' },
-              { src: '/Certifications/MSME.png', alt: 'MSME Registered', name: 'MSME Registered' },
-              { src: '/Certifications/gjiie.png', alt: 'GJIIE Member', name: 'GJIIE' },
-              { src: '/Certifications/IBJA_logo-big.png', alt: 'IBJA Member', name: 'IBJA' },
-              { src: '/Certifications/import-export-code-iec-dscraja.png', alt: 'Import Export Code', name: 'IEC' }
-            ].map((cert, index) => (
+            {CERTIFICATIONS.map((cert, index) => (
               <div
                 key={index}
                 className="flex-shrink-0 flex items-center justify-center animate-on-scroll"
@@ -293,25 +216,25 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: TrendingUp, title: 'Stay ahead with market insights', desc: 'Our experience backed insights help you spot demand and stock with confidence' },
-              { icon: IndianRupee, title: 'Boost your margins', desc: 'From us to you- no middlemen. Just factory pricing and better returns for you.' },
-              { icon: Star, title: 'Get the most from every order', desc: 'Hallmark standards and flawless finish — ensuring your money is well spent.' },
-              { icon: Truck, title: 'Keep operations smooth', desc: 'We ship on time, every time since we stock fast selling products.' },
-              { icon: Receipt, title: 'Simplify paperwork', desc: 'Seamless E- invoicing- so you can focus on growth, not paperwork.' }
-            ].map((item, index) => (
+            {FEATURES.map((item, index) => {
+              // Map icons to features
+              const icons = [TrendingUp, IndianRupee, Star, Truck, Receipt];
+              const Icon = icons[index];
+              
+              return (
               <div
                 key={index}
                 className="text-left space-y-4 p-8 rounded-xl bg-white border border-[#E8E4DA] animate-on-scroll"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="w-14 h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center">
-                  <item.icon className="w-7 h-7 text-[#C06014]" />
+                  <Icon className="w-7 h-7 text-[#C06014]" />
                 </div>
                 <h3 className="text-lg font-semibold text-[#1C1C1C]">{item.title}</h3>
                 <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -324,7 +247,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
           <div className="relative overflow-hidden animate-on-scroll">
             <div className="flex gap-10 animate-scroll-left w-max">
-              {[...retailerLogos, ...retailerLogos].map((brand, index) => (
+              {[...RETAILER_LOGOS, ...RETAILER_LOGOS].map((brand, index) => (
                 <div
                   key={`${brand.name}-${index}`}
                   className="flex-shrink-0 flex items-center justify-center w-32 md:w-40 h-16 md:h-20"

@@ -2,6 +2,9 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { X, ShoppingCart, Sparkles, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { categories, products, Product } from '../data/products';
 import BackButton from '../components/BackButton';
+import { RETAILER_LOGOS, QUOTE_STEPS, TIMINGS, CAROUSEL_CONFIG, COLORS } from '../config/constants';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { smoothScrollToElement } from '../utils/animations';
 
 interface QuotationPageProps {
   onNavigate: (page: 'home' | 'quote') => void;
@@ -12,22 +15,12 @@ interface QuoteItem {
   quantity: number;
 }
 
-const retailerLogos = [
-  { name: 'Khazana', logo: '/logos/Khazana.png' },
-  { name: 'GRT', logo: '/logos/grt.webp' },
-  { name: 'Kumaran', logo: '/logos/kumaran.png' },
-  { name: 'Lalitha', logo: '/logos/lalitha.webp' },
-  { name: 'Malabar', logo: '/logos/Malabar.png' },
-  { name: 'Pothys', logo: '/logos/pothys.webp' },
-  { name: 'Saravana Selvarathinam', logo: '/logos/saravana selvarathinam.png' },
-  { name: 'Thangamayil', logo: '/logos/Thangamayil.png' }
-];
-
 
 export default function QuotationPage({ onNavigate }: QuotationPageProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [isCarouselPaused, setIsCarouselPaused] = useState(false);
   const categoryCarouselRef = useRef<HTMLDivElement>(null);
+  const carouselResumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
@@ -39,29 +32,17 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     gstin: ''
   });
 
+  // Filter products based on selected category
   const filteredProducts = useMemo(() => {
-    console.log('🔍 Filtering for category:', selectedCategory);
-    console.log('📦 Total products available:', products.length);
+    if (!products || products.length === 0) {
+      return [];
+    }
     
     if (selectedCategory === 'all') {
-      console.log('✅ Showing all products:', products.length);
-      return products;
+      return [...products]; // Return all products
     }
     
-    const filtered = products.filter((p) => {
-      const matches = p.category === selectedCategory;
-      if (!matches) {
-        console.log(`❌ Product "${p.name}" category "${p.category}" doesn't match "${selectedCategory}"`);
-      }
-      return matches;
-    });
-    
-    console.log(`✅ Filtered ${filtered.length} products for category "${selectedCategory}"`);
-    if (filtered.length > 0) {
-      console.log('First few products:', filtered.slice(0, 3).map(p => p.name));
-    }
-    
-    return filtered;
+    return products.filter((p) => p.category === selectedCategory);
   }, [selectedCategory]);
 
   const addToQuote = useCallback((product: Product) => {
@@ -106,47 +87,33 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     }, 100);
   };
 
+  // Setup scroll animations
+  useScrollAnimation([selectedCategory]);
+
+  // Cleanup timeout on unmount
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-            // Also animate child elements with staggered delays
-            const children = entry.target.querySelectorAll('.animate-on-scroll');
-            children.forEach((child, index) => {
-              setTimeout(() => {
-                child.classList.add('animate-fade-in-up');
-              }, index * 100);
-            });
-            // Don't unobserve - keep watching for re-entry
-          } else {
-            // Remove animation class when not visible so it can re-animate
-            entry.target.classList.remove('animate-fade-in-up');
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
-    );
-
-    const elements = document.querySelectorAll('.animate-on-scroll');
-    elements.forEach((el) => observer.observe(el));
-    
-    // Also observe sections for section-level animations
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => {
-      if (!section.querySelector('.animate-on-scroll')) {
-        section.classList.add('animate-on-scroll');
-        observer.observe(section);
-      }
-    });
-
     return () => {
-      elements.forEach((el) => observer.unobserve(el));
-      sections.forEach((section) => observer.unobserve(section));
-      observer.disconnect();
+      if (carouselResumeTimeoutRef.current) {
+        clearTimeout(carouselResumeTimeoutRef.current);
+      }
     };
-  }, [selectedCategory]);
+  }, []);
+
+  // Scroll to products section on initial load
+  useEffect(() => {
+    if (selectedCategory === 'all' && filteredProducts.length > 0) {
+      const timer = setTimeout(() => {
+        const productsSection = document.getElementById('products-section');
+        if (productsSection) {
+          const rect = productsSection.getBoundingClientRect();
+          if (rect.top > window.innerHeight || rect.bottom < 0 || window.scrollY === 0) {
+            smoothScrollToElement('products-section');
+          }
+        }
+      }, TIMINGS.scrollDelay);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedCategory, filteredProducts.length]);
 
   return (
     <div className="bg-[#FAF9F7] min-h-screen">
@@ -163,11 +130,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
             
             {/* Milestone Steps */}
             <div className="flex flex-col gap-3 py-4 animate-on-scroll">
-              {[
-                { step: '1', title: 'Select Products', desc: 'Browse and choose from our range of silver articles' },
-                { step: '2', title: 'Submit Quote Request', desc: 'Fill in your details and send us your requirements' },
-                { step: '3', title: 'Receive Proposal', desc: 'Get a tailored quote within 24 hours' }
-              ].map((milestone, index) => (
+              {QUOTE_STEPS.map((milestone, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="flex flex-col items-center">
                     <div className="w-8 h-8 rounded-full bg-[#C06014] text-white flex items-center justify-center font-semibold text-xs flex-shrink-0">
@@ -206,33 +169,72 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
             Select Category
           </h3>
 
-          <div className="relative overflow-hidden animate-on-scroll">
+          <div className="relative overflow-hidden animate-on-scroll" style={{ position: 'relative' }}>
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (categoryCarouselRef.current) {
-                  categoryCarouselRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+                  setIsCarouselPaused(true);
+                  const currentScroll = categoryCarouselRef.current.scrollLeft;
+                  categoryCarouselRef.current.scrollTo({ 
+                    left: currentScroll - CAROUSEL_CONFIG.scrollAmount, 
+                    behavior: 'smooth' 
+                  });
+                  if (carouselResumeTimeoutRef.current) {
+                    clearTimeout(carouselResumeTimeoutRef.current);
+                  }
+                  carouselResumeTimeoutRef.current = setTimeout(() => {
+                    setIsCarouselPaused(false);
+                  }, TIMINGS.carouselResume);
                 }
               }}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white border border-[#E8E4DA] rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-50 bg-white hover:bg-gray-100 border-2 border-[#C06014] rounded-full p-3 shadow-xl transition-all duration-300 hover:scale-110"
               aria-label="Scroll categories left"
+              type="button"
+              style={{ pointerEvents: 'auto', cursor: 'pointer' }}
             >
               <ChevronLeft className="w-6 h-6 text-[#C06014]" />
             </button>
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (categoryCarouselRef.current) {
-                  categoryCarouselRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+                  setIsCarouselPaused(true);
+                  const currentScroll = categoryCarouselRef.current.scrollLeft;
+                  categoryCarouselRef.current.scrollTo({ 
+                    left: currentScroll + CAROUSEL_CONFIG.scrollAmount, 
+                    behavior: 'smooth' 
+                  });
+                  if (carouselResumeTimeoutRef.current) {
+                    clearTimeout(carouselResumeTimeoutRef.current);
+                  }
+                  carouselResumeTimeoutRef.current = setTimeout(() => {
+                    setIsCarouselPaused(false);
+                  }, TIMINGS.carouselResume);
                 }
               }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white border border-[#E8E4DA] rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-50 bg-white hover:bg-gray-100 border-2 border-[#C06014] rounded-full p-3 shadow-xl transition-all duration-300 hover:scale-110"
               aria-label="Scroll categories right"
+              type="button"
+              style={{ pointerEvents: 'auto', cursor: 'pointer' }}
             >
               <ChevronRight className="w-6 h-6 text-[#C06014]" />
             </button>
             <div 
               ref={categoryCarouselRef}
               className={`flex gap-4 w-max overflow-x-auto scrollbar-hide ${isCarouselPaused ? '' : 'animate-scroll-left'}`}
-              style={{ scrollBehavior: 'smooth' }}
+              style={{ scrollBehavior: 'smooth', position: 'relative', zIndex: 1 }}
+              onMouseEnter={() => setIsCarouselPaused(true)}
+              onMouseLeave={() => {
+                if (carouselResumeTimeoutRef.current) {
+                  clearTimeout(carouselResumeTimeoutRef.current);
+                }
+                carouselResumeTimeoutRef.current = setTimeout(() => {
+                  setIsCarouselPaused(false);
+                }, TIMINGS.carouselMouseLeave);
+              }}
             >
               {[
                 { id: 'all', name: 'All Categories', image: null },
@@ -248,16 +250,17 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('🖱️ Category button clicked:', category.id, '-', category.name);
                     setSelectedCategory(category.id);
                     setIsCarouselPaused(true);
-                    // Scroll to products section
-                    requestAnimationFrame(() => {
-                      const productsSection = document.getElementById('products-section');
-                      if (productsSection) {
-                        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }
-                    });
+                    
+                    if (carouselResumeTimeoutRef.current) {
+                      clearTimeout(carouselResumeTimeoutRef.current);
+                    }
+                    carouselResumeTimeoutRef.current = setTimeout(() => {
+                      setIsCarouselPaused(false);
+                    }, TIMINGS.carouselResume);
+                    
+                    smoothScrollToElement('products-section');
                   }}
                   className={`group relative flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden border ${
                     isSelected ? 'border-[#C06014] bg-[#FCF6F0]' : 'border-[#E8E4DA] bg-white'
@@ -303,16 +306,19 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </div>
       </section>
 
-      <section id="products-section" className="py-20 px-6" key={`section-${selectedCategory}`}>
+      <section id="products-section" className="py-20 px-6 bg-[#FAF9F7]" key={selectedCategory}>
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8 text-[#1C1C1C]">
-            {selectedCategory === 'all' ? `All Products (${filteredProducts.length})` : `${categories.find(c => c.id === selectedCategory)?.name || 'Products'} (${filteredProducts.length})`}
+            {selectedCategory === 'all' 
+              ? `All Products (${filteredProducts?.length || 0})` 
+              : `${categories.find(c => c.id === selectedCategory)?.name || 'Products'} (${filteredProducts?.length || 0})`
+            }
           </h2>
-          {filteredProducts.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" key={`grid-${selectedCategory}`}>
-              {filteredProducts.map((product, index) => (
+          {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProducts.map((product, idx) => (
                 <div
-                  key={`${selectedCategory}-${product.id}`}
+                  key={`${selectedCategory}-${product.id}-${idx}`}
                   className="bg-white rounded-2xl overflow-hidden border border-[#E8E4DA]"
                   style={{ 
                     opacity: 1,
@@ -321,30 +327,26 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                 >
                   <div className="relative h-60 overflow-hidden bg-[#F5F5F5] flex items-center justify-center">
                     <img
-                      key={`img-${product.id}-${selectedCategory}`}
+                      key={`img-${product.id}-${selectedCategory}-${idx}`}
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-contain p-4"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        console.error('❌ Failed to load:', product.image);
                         target.src = '/logos/Main logo.png';
                         target.className = 'w-full h-full object-contain p-8 opacity-50';
-                      }}
-                      onLoad={() => {
-                        console.log('✅ Loaded:', product.name);
                       }}
                       loading="eager"
                     />
                   </div>
-
                   <div className="p-6 space-y-3">
                     <h3 className="text-lg font-semibold text-[#1C1C1C]">{product.name}</h3>
+                    <p className="text-sm text-[#5A5A5A]">Weight: {product.weightRange}</p>
                     <button
                       onClick={() => addToQuote(product)}
                       className="w-full px-6 py-3 bg-[#C06014] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#a95311] flex items-center justify-center gap-2"
                     >
-                      <Plus className="w-5 h-5" />
+                      <Plus className="w-4 h-4" />
                       Add to Quote
                     </button>
                   </div>
@@ -354,8 +356,6 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
           ) : (
             <div className="text-center py-12">
               <p className="text-lg text-[#5A5A5A]">No products found in this category.</p>
-              <p className="text-sm text-[#999] mt-2">Selected category: {selectedCategory}</p>
-              <p className="text-sm text-[#999]">Total products in system: {products.length}</p>
             </div>
           )}
         </div>
@@ -460,7 +460,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
 
           <div className="relative overflow-hidden animate-on-scroll">
             <div className="flex gap-10 animate-scroll-left w-max">
-              {[...retailerLogos, ...retailerLogos].map((brand, index) => (
+              {[...RETAILER_LOGOS, ...RETAILER_LOGOS].map((brand, index) => (
                 <div
                   key={`${brand.name}-${index}`}
                   className="flex-shrink-0 flex items-center justify-center w-32 md:w-40 h-16 md:h-20"
