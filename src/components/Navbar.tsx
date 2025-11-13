@@ -86,14 +86,14 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
       label: 'Categories', 
       ariaLabel: 'View categories', 
       onClick: () => {
-              if (currentPage === 'home') {
-                document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
-              } else {
-                onNavigate('home');
-                setTimeout(() => {
-                  document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }
+        if (currentPage === 'home') {
+          document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          onNavigate('home');
+          setTimeout(() => {
+            document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
       }
     },
     { 

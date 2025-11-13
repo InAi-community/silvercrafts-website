@@ -177,7 +177,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             duration: 0.55,
             ease: 'power3.out',
             stagger: { each: 0.08, from: 'start' },
-            onComplete: () => gsap.set(socialLinks, { clearProps: 'opacity' })
+            onComplete: () => {
+              gsap.set(socialLinks, { clearProps: 'opacity' });
+            }
           },
           socialsStart + 0.04
         );
@@ -390,7 +392,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         )}
 
         <header
-          className="staggered-menu-header fixed top-0 left-0 right-0 w-full flex items-center justify-between p-[2em] bg-transparent z-50 pointer-events-auto"
+          className="staggered-menu-header fixed top-0 left-0 right-0 w-full flex items-center justify-between px-4 py-6 md:px-8 md:py-8 bg-transparent z-50 pointer-events-auto"
           aria-label="Main navigation header"
         >
           {/* Logo/Brand Name on Left */}
@@ -405,7 +407,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             }}
           >
             <span 
-              className="text-2xl md:text-3xl font-bold tracking-tight"
+              className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight"
               style={{ 
                 color: menuButtonColor,
                 fontFamily: "'Raleway', sans-serif"
@@ -417,7 +419,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
           <button
             ref={toggleBtnRef}
-            className="sm-toggle relative inline-flex items-center justify-center w-12 h-12 bg-transparent border-0 cursor-pointer pointer-events-auto transition-all duration-300"
+            className="sm-toggle relative inline-flex items-center justify-center w-11 h-11 md:w-12 md:h-12 bg-transparent border-0 cursor-pointer pointer-events-auto transition-all duration-300"
             style={{ color: open ? openMenuButtonColor : menuButtonColor }}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
@@ -425,11 +427,11 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             onClick={toggleMenu}
             type="button"
           >
-            <div className="relative w-8 h-8 flex items-center justify-center">
+            <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center">
               {open ? (
-                <X className="w-8 h-8 transition-opacity duration-300" />
+                <X className="w-7 h-7 md:w-8 md:h-8 transition-opacity duration-300" />
               ) : (
-                <Menu className="w-8 h-8 transition-opacity duration-300" />
+                <Menu className="w-7 h-7 md:w-8 md:h-8 transition-opacity duration-300" />
               )}
             </div>
           </button>
@@ -450,20 +452,20 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           }`}
           style={{ 
             width: 'min(400px, 100vw)',
-            padding: '40px 30px',
+            padding: 'clamp(1.5rem, 5vw, 2.5rem)',
             boxShadow: '-5px 0 30px rgba(0, 0, 0, 0.5)'
           }}
           aria-hidden={!open}
         >
           <button
             onClick={toggleMenu}
-            className="absolute top-8 right-8 w-12 h-12 flex items-center justify-center border-2 border-[#1a1a1a]/30 rounded-full hover:border-[#C06014] hover:bg-[#C06014]/20 hover:rotate-90 transition-all duration-300 z-50"
+            className="absolute top-4 right-4 md:top-8 md:right-8 w-11 h-11 md:w-12 md:h-12 flex items-center justify-center border-2 border-[#1a1a1a]/30 rounded-full hover:border-[#C06014] hover:bg-[#C06014]/20 hover:rotate-90 transition-all duration-300 z-50"
             aria-label="Close menu"
           >
-            <X className="w-6 h-6 text-[#1a1a1a]" />
+            <X className="w-5 h-5 md:w-6 md:h-6 text-[#1a1a1a]" />
           </button>
           
-          <nav className="flex-1 flex flex-col gap-8 py-6 pt-12" role="navigation">
+          <nav className="flex-1 flex flex-col gap-4 md:gap-6 py-6 pt-12 md:pt-16" role="navigation">
             {items && items.length ? (
               items.map((it, idx) => (
                 <div
@@ -472,27 +474,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 >
                   {it.onClick ? (
                     <button
-                      className="w-full flex items-center justify-between px-5 py-4 bg-black/[0.03] border-l-3 border-transparent hover:border-[#C06014] hover:bg-[#C06014]/10 hover:-translate-x-1 transition-all duration-300 rounded-md cursor-pointer"
+                      className="w-full flex items-center justify-between px-4 md:px-5 py-3 md:py-4 bg-black/[0.03] border-l-3 border-transparent hover:border-[#C06014] hover:bg-[#C06014]/10 hover:-translate-x-1 transition-all duration-300 rounded-md cursor-pointer min-h-[44px]"
                       onClick={() => handleItemClick(it)}
                       aria-label={it.ariaLabel || it.label}
                     >
-                      <span className="text-2xl font-semibold text-[#1a1a1a] tracking-wide group-hover:text-[#C06014] transition-colors duration-300">
+                      <span className="text-lg sm:text-xl md:text-2xl font-semibold text-[#1a1a1a] tracking-wide group-hover:text-[#C06014] transition-colors duration-300">
                         {it.label}
                       </span>
-                      <span className="text-sm font-light text-[#C06014] font-mono">
+                      <span className="text-xs sm:text-sm font-light text-[#C06014] font-mono">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
                     </button>
                   ) : (
                     <a
-                      className="w-full flex items-center justify-between px-5 py-4 bg-black/[0.03] border-l-3 border-transparent hover:border-[#C06014] hover:bg-[#C06014]/10 hover:-translate-x-1 transition-all duration-300 rounded-md cursor-pointer"
+                      className="w-full flex items-center justify-between px-4 md:px-5 py-3 md:py-4 bg-black/[0.03] border-l-3 border-transparent hover:border-[#C06014] hover:bg-[#C06014]/10 hover:-translate-x-1 transition-all duration-300 rounded-md cursor-pointer min-h-[44px]"
                       href={it.link || '#'}
                       aria-label={it.ariaLabel || it.label}
                     >
-                      <span className="text-2xl font-semibold text-[#1a1a1a] tracking-wide group-hover:text-[#C06014] transition-colors duration-300">
+                      <span className="text-lg sm:text-xl md:text-2xl font-semibold text-[#1a1a1a] tracking-wide group-hover:text-[#C06014] transition-colors duration-300">
                         {it.label}
                       </span>
-                      <span className="text-sm font-light text-[#C06014] font-mono">
+                      <span className="text-xs sm:text-sm font-light text-[#C06014] font-mono">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
                     </a>
@@ -505,7 +507,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           </nav>
 
           {/* CTA Button at Bottom */}
-          <div className="mt-auto pt-8 border-t border-[#C06014]/40">
+          <div className="mt-auto pt-6 md:pt-8 border-t border-[#C06014]/40">
             <button
               onClick={() => {
                 const firstItem = items && items.length > 0 ? items[0] : null;
@@ -514,7 +516,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   toggleMenu();
                 }
               }}
-              className="w-full px-8 py-5 bg-gradient-to-r from-[#C06014] to-[#a95311] text-white text-lg font-bold rounded-full hover:-translate-y-1 hover:shadow-[0_6px_25px_rgba(192,96,20,0.5)] transition-all duration-300 uppercase tracking-wider"
+              className="w-full px-6 md:px-8 py-4 md:py-5 bg-gradient-to-r from-[#C06014] to-[#a95311] text-white text-base md:text-lg font-bold rounded-full hover:-translate-y-1 hover:shadow-[0_6px_25px_rgba(192,96,20,0.5)] transition-all duration-300 uppercase tracking-wider min-h-[44px]"
             >
               Explore Products
             </button>
