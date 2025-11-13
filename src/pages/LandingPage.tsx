@@ -159,19 +159,18 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             
           </p>
         </div>
-        <div className="max-w-5xl mx-auto mt-8 sm:mt-10 md:mt-12 animate-on-scroll">
-          <div className="flex flex-nowrap justify-center items-center gap-6 sm:gap-8 md:gap-12 overflow-x-auto md:overflow-x-hidden px-4 scrollbar-hide">
+        <div className="max-w-5xl mx-auto mt-8 sm:mt-10 md:mt-12">
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-10 md:gap-12 lg:gap-14 px-4">
             {CERTIFICATIONS.map((cert, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 flex items-center justify-center animate-on-scroll"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="flex items-center justify-center"
               >
                 <img
                   src={cert.src}
                   alt={cert.alt}
-                  className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain max-w-full"
-                  loading="lazy"
+                  className="h-16 sm:h-18 md:h-20 lg:h-24 w-auto object-contain"
+                  style={{ maxWidth: '150px' }}
                 />
               </div>
             ))}

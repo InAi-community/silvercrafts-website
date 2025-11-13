@@ -21,7 +21,9 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
+      {currentPage === 'home' && (
+        <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
+      )}
       {currentPage === 'home' ? (
         <LandingPage onNavigate={handleNavigate} />
       ) : (

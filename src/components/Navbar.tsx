@@ -9,14 +9,21 @@ interface NavbarProps {
 
 export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
   const [isWhiteBackground, setIsWhiteBackground] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (currentPage !== 'home') {
       setIsWhiteBackground(true);
+      setIsScrolled(true);
       return;
     }
 
     const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      
+      // Track if user has scrolled
+      setIsScrolled(scrollPosition > 50);
+      
       const heroSection = document.querySelector('section.min-h-screen');
       // Update selector to match the new dual carousel section
       const secondSection = document.querySelector('section.h-\\[90vh\\]') || 
