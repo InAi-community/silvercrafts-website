@@ -59,8 +59,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             </p>
             <div className="flex gap-3 sm:gap-4 pt-2 sm:pt-4">
               <button
-                onClick={() => smoothScrollToElement('categories')}
-                className="px-6 py-3 sm:px-8 sm:py-3 bg-[#C06014] text-white rounded-full text-sm sm:text-base font-medium transition-colors duration-300 hover:bg-[#a95311] min-h-[44px]"
+                onClick={() => onNavigate('quote')}
+                className="px-6 py-3 sm:px-8 sm:py-3 bg-transparent border-2 border-white text-white rounded-full text-sm sm:text-base font-medium transition-all duration-300 hover:bg-white hover:text-[#1A1A1A] min-h-[44px]"
               >
                 Explore Products
               </button>
@@ -153,14 +153,14 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white border-t border-[#EDEAE2]">
         <div className="max-w-5xl mx-auto text-center space-y-3 sm:space-y-4 animate-on-scroll">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] animate-on-scroll px-4">
-            Certified silver manufacturing excellence
+            Verified for your peace of mind
           </h2>
           <p className="text-sm md:text-base text-[#666666]">
             
           </p>
         </div>
         <div className="max-w-5xl mx-auto mt-8 sm:mt-10 md:mt-12">
-          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-10 md:gap-12 lg:gap-14 px-4">
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 px-4">
             {CERTIFICATIONS.map((cert, index) => (
               <div
                 key={index}
@@ -169,8 +169,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 <img
                   src={cert.src}
                   alt={cert.alt}
-                  className="h-16 sm:h-18 md:h-20 lg:h-24 w-auto object-contain"
-                  style={{ maxWidth: '150px' }}
+                  className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto object-contain"
+                  style={{ maxWidth: '120px' }}
                 />
               </div>
             ))}
@@ -180,8 +180,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section id="categories" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
-            
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
+            Our products, for your business
           </h2>
 
           <div className="relative animate-on-scroll">
@@ -226,7 +226,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
             <div className="bg-white rounded-xl sm:rounded-2xl border border-[#E8E4DA] shadow-sm p-5 sm:p-6 md:p-8 lg:p-12 space-y-5 sm:space-y-6">
               <div className="space-y-4 sm:space-y-5 text-left">
-                <p className="text-sm sm:text-base md:text-lg text-[#1C1C1C] leading-relaxed font-medium">
+                <p className="text-sm sm:text-base md:text-lg text-[#5A5A5A] leading-relaxed">
                 Silver Crafts began with one goal — to manufacture silver articles that jewellery retailers can rely on.
               </p>
                 
@@ -238,7 +238,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 
                 <div className="h-px bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent my-4 sm:my-5 md:my-6"></div>
                 
-                <p className="text-sm sm:text-base md:text-lg text-[#1C1C1C] leading-relaxed font-medium italic">
+                <p className="text-sm sm:text-base md:text-lg text-[#5A5A5A] leading-relaxed">
                   We are here to be your long-term silver partner — to grow your business, and to grow with you.
               </p>
               </div>
@@ -249,8 +249,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
-            Why choose Silver Crafts
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
+            With us you can
           </h2>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
@@ -284,16 +284,16 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </h3>
 
           <div className="relative overflow-hidden animate-on-scroll">
-            <div className="flex gap-6 sm:gap-8 md:gap-10 animate-scroll-left w-max">
+            <div className="flex gap-8 sm:gap-10 md:gap-12 lg:gap-14 animate-scroll-left w-max">
               {[...RETAILER_LOGOS, ...RETAILER_LOGOS].map((brand, index) => (
                 <div
                   key={`${brand.name}-${index}`}
-                  className="flex-shrink-0 flex items-center justify-center w-24 sm:w-28 md:w-32 lg:w-40 h-12 sm:h-14 md:h-16 lg:h-20"
+                  className="flex-shrink-0 flex items-center justify-center w-20 sm:w-24 md:w-28 lg:w-32 h-10 sm:h-12 md:h-14 lg:h-16"
                 >
                   <img
                     src={brand.logo}
                     alt={brand.name}
-                    className="max-w-full max-h-full object-contain"
+                    className="max-w-full max-h-full object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
                     loading="lazy"
                   />
                 </div>
@@ -305,8 +305,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-28 px-4 sm:px-6 bg-gradient-to-b from-[#FDFBF7] to-white border-t border-[#EDEAE2]">
         <div className="max-w-4xl mx-auto text-center animate-on-scroll">
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-normal text-[#1C1C1C] leading-tight mb-6 sm:mb-7 md:mb-8 px-4">
-            Plan your next silver collection with us
+          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-[#1C1C1C] leading-relaxed mb-6 sm:mb-7 md:mb-8 px-4">
+            View products & instantly build your quotation request list
           </h2>
           <button
             onClick={() => {
@@ -316,9 +316,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 smoothScrollToElement('quote-hero');
               }, 100);
             }}
-            className="px-6 py-3 sm:px-8 sm:py-4 bg-[#C06014] text-white rounded-full text-sm sm:text-base font-semibold transition-colors duration-300 hover:bg-[#a95311] flex items-center justify-center gap-2 mx-auto min-h-[44px]"
+            className="px-6 py-3 sm:px-8 sm:py-4 bg-[#C06014] text-white rounded-full text-sm sm:text-base font-normal transition-colors duration-300 hover:bg-[#a95311] flex items-center justify-center gap-2 mx-auto min-h-[44px]"
           >
-            Request a Quote
+            Build your quote
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>

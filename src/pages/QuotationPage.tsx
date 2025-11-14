@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, ShoppingCart, Sparkles, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { categories, products, Product } from '../data/products';
 import BackButton from '../components/BackButton';
-import { RETAILER_LOGOS, QUOTE_STEPS, CAROUSEL_CONFIG } from '../config/constants';
+import { QUOTE_STEPS, CAROUSEL_CONFIG } from '../config/constants';
 
 interface QuotationPageProps {
   onNavigate: (page: 'home' | 'quote') => void;
@@ -24,7 +24,9 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
   const [showQuoteForm, setShowQuoteForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
+    businessName: '',
+    yourName: '',
+    designation: '',
     phone: '',
     email: '',
     gstin: ''
@@ -95,11 +97,11 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       <section id="quote-hero" className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-14 md:pb-16 px-4 sm:px-6 bg-[#FDFBF7] border-b border-[#EDEAE2]">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
           <div className="space-y-4 sm:space-y-5 md:space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-[#1C1C1C] leading-tight">
-              Silver Crafts
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-[#1C1C1C] leading-tight">
+              Silver Crafts<sup className="text-xs ml-0.5" style={{ fontSize: '0.4em', verticalAlign: 'super' }}>™</sup>
             </h1>
-            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-[#1C1C1C] leading-snug">
-              Build a tailored silverware proposal with ease
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-normal text-[#1C1C1C] leading-snug">
+              Your quotation request list is a few clicks away
             </h2>
             
             {/* Milestone Steps */}
@@ -107,7 +109,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               {QUOTE_STEPS.map((milestone, index) => (
                 <div key={index} className="flex items-start gap-2 sm:gap-3">
                   <div className="flex flex-col items-center">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#C06014] text-white flex items-center justify-center font-semibold text-xs flex-shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#C06014] text-white flex items-center justify-center font-medium text-xs flex-shrink-0">
                       {milestone.step}
                     </div>
                     {index < 2 && (
@@ -115,7 +117,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                     )}
                   </div>
                   <div className="flex-1 pt-0.5">
-                    <h3 className="text-xs sm:text-sm font-semibold text-[#1C1C1C] mb-0.5">
+                    <h3 className="text-xs sm:text-sm font-medium text-[#1C1C1C] mb-0.5">
                       {milestone.title}
                     </h3>
                     <p className="text-xs text-[#5A5A5A] leading-relaxed">
@@ -141,7 +143,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       {/* Categories Section */}
       <section id="categories-section" className="py-10 sm:py-12 md:py-14 px-4 sm:px-6 bg-[#FAF9F7] border-b border-[#EDEAE2]">
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-8 sm:mb-9 md:mb-10 px-4">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-9 md:mb-10 px-4">
             Select Category
           </h3>
 
@@ -222,13 +224,13 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                             }
                           }}
                         />
-                        <div className="absolute inset-x-2 sm:inset-x-3 bottom-2 sm:bottom-3 rounded-full bg-white/90 px-2 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-semibold text-[#1C1C1C] tracking-wide shadow-sm">
+                        <div className="absolute inset-x-2 sm:inset-x-3 bottom-0.5 rounded-full bg-white/90 px-2 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-medium text-[#1C1C1C] tracking-wide shadow-sm">
                           {category.name}
                         </div>
                       </>
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#C06014]/10 to-[#C06014]/5">
-                        <span className="text-xs sm:text-sm font-bold text-[#C06014] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 border-[#C06014] bg-white">
+                        <span className="text-xs sm:text-sm font-medium text-[#C06014] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 border-[#C06014] bg-white">
                           All
                         </span>
                       </div>
@@ -246,7 +248,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       <section id="products-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-2 px-4">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] mb-2 px-4">
               {selectedCategory === 'all' ? 'All Products' : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
             </h2>
             <p className="text-sm sm:text-base text-[#5A5A5A]">
@@ -275,7 +277,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                     />
                   </div>
                   <div className="p-4 sm:p-5">
-                    <h3 className="text-sm sm:text-base font-semibold text-[#1C1C1C] mb-3 min-h-[40px] sm:min-h-[48px]">
+                    <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C] mb-3 min-h-[40px] sm:min-h-[48px]">
                       {product.name}
                     </h3>
                     <button
@@ -294,7 +296,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#F5F5F5] rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <ShoppingCart className="w-10 h-10 sm:w-12 sm:h-12 text-[#C06014] opacity-40" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-[#1C1C1C] mb-2">No Products Available</h3>
+              <h3 className="text-lg sm:text-xl font-normal text-[#1C1C1C] mb-2">No Products Available</h3>
               <p className="text-sm sm:text-base text-[#5A5A5A] mb-4 sm:mb-6">No products found in this category.</p>
               <button
                 onClick={() => handleCategoryClick('all')}
@@ -339,7 +341,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
           <div className="p-4 sm:p-5 md:p-6 border-b border-[#E8E4DA] flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
               <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-[#C06014]" />
-              <h3 className="text-lg sm:text-xl font-semibold text-[#1C1C1C]">Quote Summary</h3>
+              <h3 className="text-lg sm:text-xl font-normal text-[#1C1C1C]">Quote Summary</h3>
             </div>
             <button
               onClick={() => setShowSidebar(false)}
@@ -374,7 +376,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                     loading="lazy"
                   />
                   <div className="flex-1 pr-8">
-                    <h4 className="font-medium text-[#1A1A1A] text-sm sm:text-base mb-1">{item.product.name}</h4>
+                    <h4 className="font-normal text-[#1A1A1A] text-sm sm:text-base mb-1">{item.product.name}</h4>
                   </div>
                 </div>
               ))
@@ -386,7 +388,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               <div className="mb-4 space-y-2">
                 <div className="text-center">
                   <p className="text-xs sm:text-sm text-[#86837D] mb-1">Total Products</p>
-                  <p className="text-lg sm:text-xl font-semibold text-[#1C1C1C]">
+                  <p className="text-lg sm:text-xl font-normal text-[#1C1C1C]">
                     {uniqueProductCount}
                   </p>
                 </div>
@@ -402,32 +404,6 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         </div>
       </div>
 
-      {/* Trusted By Section */}
-      <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 bg-[#FAF9F7]">
-        <div className="max-w-7xl mx-auto">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-6 sm:mb-7 md:mb-8 px-4">
-            Trusted by the best
-          </h3>
-
-          <div className="relative overflow-hidden">
-            <div className="flex gap-6 sm:gap-8 md:gap-10 animate-scroll-left w-max">
-              {[...RETAILER_LOGOS, ...RETAILER_LOGOS].map((brand, index) => (
-                <div
-                  key={`${brand.name}-${index}`}
-                  className="flex-shrink-0 flex items-center justify-center w-24 sm:w-28 md:w-32 lg:w-40 h-12 sm:h-14 md:h-16 lg:h-20"
-                >
-                  <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    className="max-w-full max-h-full object-contain"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Quote Form Modal */}
       {showQuoteForm && (
@@ -440,20 +416,48 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
-            <h3 className="text-xl sm:text-2xl font-semibold text-[#1C1C1C] mb-5 sm:mb-6 pr-8">Add business details</h3>
+            <h3 className="text-xl sm:text-2xl font-light text-[#1C1C1C] mb-5 sm:mb-6 pr-8">Add business details</h3>
 
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-[#1A1A1A] mb-1.5 sm:mb-2">
-                  Full Name *
+                  Business Name *
                 </label>
                 <input
                   type="text"
                   required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  value={formData.businessName}
+                  onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#C06014] transition-colors text-sm sm:text-base"
+                  placeholder="Your business name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-[#1A1A1A] mb-1.5 sm:mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.yourName}
+                  onChange={(e) => setFormData({ ...formData, yourName: e.target.value })}
                   className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#C06014] transition-colors text-sm sm:text-base"
                   placeholder="Your full name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-[#1A1A1A] mb-1.5 sm:mb-2">
+                  Your Designation *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.designation}
+                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#C06014] transition-colors text-sm sm:text-base"
+                  placeholder="e.g. Owner, Manager, Buyer"
                 />
               </div>
 
@@ -517,7 +521,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-[#C06014]" />
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-semibold text-[#1C1C1C] mb-3 sm:mb-4 px-2">
+            <h3 className="text-xl sm:text-2xl font-normal text-[#1C1C1C] mb-3 sm:mb-4 px-2">
               Your quotation has been received successfully!
             </h3>
 

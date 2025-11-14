@@ -30,6 +30,9 @@ interface StaggeredMenuProps {
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
   onLogoClick?: () => void;
+  navbarLayout?: 'option1' | 'option2' | 'option3'; // New prop for layout options
+  onLoginClick?: () => void; // New prop for login handler
+  onNavigate?: (page: 'home' | 'quote') => void; // New prop for navigation
 }
 
 export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
@@ -47,7 +50,10 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   accentColor = '#5227FF',
   onMenuOpen,
   onMenuClose,
-  onLogoClick
+  onLogoClick,
+  navbarLayout = 'option3', // Default to option 3
+  onLoginClick,
+  onNavigate
 }) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
@@ -392,12 +398,140 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         )}
 
         <header
-          className="staggered-menu-header fixed top-0 left-0 right-0 w-full flex items-center justify-between px-4 py-6 md:px-8 md:py-8 bg-transparent z-50 pointer-events-auto"
+          className="staggered-menu-header fixed top-0 left-0 right-0 w-full flex flex-row items-center justify-between px-4 py-6 sm:px-6 md:px-12 lg:px-16 md:py-8 bg-transparent z-50 pointer-events-auto"
           aria-label="Main navigation header"
+          style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
         >
-          {/* Logo/Brand Name on Left */}
-          <div 
-            className="flex items-center cursor-pointer pointer-events-auto"
+          {/* Option 1: Login on left, Silver Crafts™ in middle, hamburger menu on right */}
+          {navbarLayout === 'option1' && (
+            <>
+              {/* Login button on left */}
+              <button
+                onClick={onLoginClick}
+                className="text-sm md:text-base font-normal tracking-wide pointer-events-auto hover:opacity-70 transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10"
+                style={{ color: menuButtonColor }}
+                aria-label="Login"
+              >
+                Login
+              </button>
+
+              {/* Logo/Brand Name in Center */}
+              <div 
+                className="absolute left-1/2 transform -translate-x-1/2 flex items-center cursor-pointer pointer-events-auto group"
+                onClick={() => {
+                  if (onLogoClick) {
+                    onLogoClick();
+                  } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+              >
+                <span 
+                  className="text-xl sm:text-2xl md:text-3xl font-normal tracking-tight transition-opacity duration-200 group-hover:opacity-80"
+                  style={{ 
+                    color: menuButtonColor,
+                    fontFamily: "'Raleway', sans-serif",
+                    letterSpacing: '0.02em'
+                  }}
+                >
+                  Silver Crafts<sup className="text-xs ml-0.5" style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</sup>
+                </span>
+              </div>
+
+              {/* Hamburger menu on right */}
+              <button
+                ref={toggleBtnRef}
+                className="sm-toggle relative inline-flex items-center justify-center w-11 h-11 md:w-12 md:h-12 bg-transparent border-0 cursor-pointer pointer-events-auto transition-all duration-300 rounded-md hover:bg-white/10"
+                style={{ color: open ? openMenuButtonColor : menuButtonColor }}
+                aria-label={open ? 'Close menu' : 'Open menu'}
+                aria-expanded={open}
+                aria-controls="staggered-menu-panel"
+                onClick={toggleMenu}
+                type="button"
+              >
+                <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center">
+                  {open ? (
+                    <X className="w-7 h-7 md:w-8 md:h-8 transition-all duration-300" />
+                  ) : (
+                    <Menu className="w-7 h-7 md:w-8 md:h-8 transition-all duration-300" />
+                  )}
+                </div>
+              </button>
+            </>
+          )}
+
+          {/* Option 2: Menu + Login side by side on left, Silver Crafts™ on right */}
+          {navbarLayout === 'option2' && (
+            <>
+              {/* Menu and Login on left side */}
+              <div className="flex items-center gap-3 sm:gap-4 md:gap-5 pointer-events-auto">
+                <button
+                  ref={toggleBtnRef}
+                  className="sm-toggle relative inline-flex items-center justify-center w-11 h-11 md:w-12 md:h-12 bg-transparent border-0 cursor-pointer pointer-events-auto transition-all duration-300 rounded-md hover:bg-white/10"
+                  style={{ color: open ? openMenuButtonColor : menuButtonColor }}
+                  aria-label={open ? 'Close menu' : 'Open menu'}
+                  aria-expanded={open}
+                  aria-controls="staggered-menu-panel"
+                  onClick={toggleMenu}
+                  type="button"
+                >
+                  <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center">
+                    {open ? (
+                      <X className="w-7 h-7 md:w-8 md:h-8 transition-all duration-300" />
+                    ) : (
+                      <Menu className="w-7 h-7 md:w-8 md:h-8 transition-all duration-300" />
+                    )}
+                  </div>
+                </button>
+                
+                {/* Subtle divider between Menu and Login */}
+                <div 
+                  className="hidden sm:block w-px h-6 opacity-30"
+                  style={{ backgroundColor: menuButtonColor }}
+                ></div>
+                
+                <button
+                  onClick={onLoginClick}
+                  className="text-sm md:text-base font-normal tracking-wide hover:opacity-70 transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10"
+                  style={{ color: menuButtonColor }}
+                  aria-label="Login"
+                >
+                  Login
+                </button>
+              </div>
+
+              {/* Logo/Brand Name on Right */}
+              <div 
+                className="flex items-center cursor-pointer pointer-events-auto group"
+                onClick={() => {
+                  if (onLogoClick) {
+                    onLogoClick();
+                  } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+              >
+                <span 
+                  className="text-xl sm:text-2xl md:text-3xl font-normal tracking-tight transition-opacity duration-200 group-hover:opacity-80"
+                  style={{ 
+                    color: menuButtonColor,
+                    fontFamily: "'Raleway', sans-serif",
+                    letterSpacing: '0.02em'
+                  }}
+                >
+                  Silver Crafts<sup className="text-xs ml-0.5" style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</sup>
+                </span>
+              </div>
+            </>
+          )}
+
+          {/* Option 3: Silver Crafts™ on left, Login + Menu side by side on right */}
+          {navbarLayout === 'option3' && (
+            <>
+              {/* Logo/Brand Name on Left - Explicitly positioned */}
+              <div 
+                className="flex items-center cursor-pointer pointer-events-auto group"
+                style={{ marginRight: 'auto' }}
             onClick={() => {
               if (onLogoClick) {
                 onLogoClick();
@@ -407,19 +541,37 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             }}
           >
             <span 
-              className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight"
+                  className="text-xl sm:text-2xl md:text-3xl font-normal tracking-tight transition-opacity duration-200 group-hover:opacity-80"
               style={{ 
                 color: menuButtonColor,
-                fontFamily: "'Raleway', sans-serif"
+                    fontFamily: "'Raleway', sans-serif",
+                    letterSpacing: '0.02em'
               }}
             >
-              Silver Crafts
+                  Silver Crafts<sup className="text-xs ml-0.5" style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</sup>
             </span>
           </div>
 
+              {/* Login and Menu on right side - Explicitly positioned */}
+              <div className="flex items-center gap-3 sm:gap-4 md:gap-5 pointer-events-auto" style={{ marginLeft: 'auto' }}>
+                <button
+                  onClick={onLoginClick}
+                  className="text-sm md:text-base font-normal tracking-wide hover:opacity-70 transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10"
+                  style={{ color: menuButtonColor }}
+                  aria-label="Login"
+                >
+                  Login
+                </button>
+                
+                {/* Subtle divider between Login and Menu */}
+                <div 
+                  className="hidden sm:block w-px h-6 opacity-30"
+                  style={{ backgroundColor: menuButtonColor }}
+                ></div>
+
           <button
             ref={toggleBtnRef}
-            className="sm-toggle relative inline-flex items-center justify-center w-11 h-11 md:w-12 md:h-12 bg-transparent border-0 cursor-pointer pointer-events-auto transition-all duration-300"
+                  className="sm-toggle relative inline-flex items-center justify-center w-11 h-11 md:w-12 md:h-12 bg-transparent border-0 cursor-pointer pointer-events-auto transition-all duration-300 rounded-md hover:bg-white/10"
             style={{ color: open ? openMenuButtonColor : menuButtonColor }}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
@@ -427,14 +579,17 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             onClick={toggleMenu}
             type="button"
           >
-            <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center">
+                  <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center">
               {open ? (
-                <X className="w-7 h-7 md:w-8 md:h-8 transition-opacity duration-300" />
+                      <X className="w-7 h-7 md:w-8 md:h-8 transition-all duration-300" />
               ) : (
-                <Menu className="w-7 h-7 md:w-8 md:h-8 transition-opacity duration-300" />
+                      <Menu className="w-7 h-7 md:w-8 md:h-8 transition-all duration-300" />
               )}
             </div>
           </button>
+              </div>
+            </>
+          )}
         </header>
 
         {open && (
@@ -447,27 +602,28 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         <aside
           id="staggered-menu-panel"
           ref={panelRef}
-          className={`staggered-menu-panel fixed top-0 right-0 h-full bg-white flex flex-col overflow-y-auto z-50 transition-all duration-400 ${
+          className={`staggered-menu-panel fixed top-0 right-0 h-full flex flex-col overflow-y-auto z-50 transition-all duration-400 ${
             open ? 'translate-x-0' : 'translate-x-full'
           }`}
           style={{ 
-            width: 'min(400px, 85vw)',
-            padding: 'clamp(1.5rem, 5vw, 2.5rem)',
-            boxShadow: '-5px 0 30px rgba(0, 0, 0, 0.5)',
+            width: 'min(320px, 80vw)',
+            padding: 'clamp(1.5rem, 4vw, 2rem)',
+            boxShadow: '-5px 0 20px rgba(0, 0, 0, 0.15)',
             right: 0,
-            left: 'auto'
+            left: 'auto',
+            backgroundColor: '#F5EFE6'
           }}
           aria-hidden={!open}
         >
           <button
             onClick={toggleMenu}
-            className="absolute top-4 right-4 md:top-8 md:right-8 w-11 h-11 md:w-12 md:h-12 flex items-center justify-center border-2 border-[#1a1a1a]/30 rounded-full hover:border-[#C06014] hover:bg-[#C06014]/20 hover:rotate-90 transition-all duration-300 z-50"
+            className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 md:w-11 md:h-11 flex items-center justify-center border border-[#1C1C1C]/20 rounded-full hover:border-[#C06014] hover:bg-white hover:rotate-90 transition-all duration-200 z-50"
             aria-label="Close menu"
           >
-            <X className="w-5 h-5 md:w-6 md:h-6 text-[#1a1a1a]" />
+            <X className="w-5 h-5 text-[#1C1C1C]" />
           </button>
           
-          <nav className="flex-1 flex flex-col gap-4 md:gap-6 py-6 pt-12 md:pt-16" role="navigation">
+          <nav className="flex-1 flex flex-col gap-2 md:gap-3 py-4 pt-8 md:pt-10" role="navigation">
             {items && items.length ? (
               items.map((it, idx) => (
                 <div
@@ -476,27 +632,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 >
                   {it.onClick ? (
                     <button
-                      className="w-full flex items-center justify-between px-4 md:px-5 py-3 md:py-4 bg-black/[0.03] border-l-3 border-transparent hover:border-[#C06014] hover:bg-[#C06014]/10 hover:-translate-x-1 transition-all duration-300 rounded-md cursor-pointer min-h-[44px]"
+                      className="w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 bg-white/60 border-l-2 border-transparent hover:border-[#C06014] hover:bg-white hover:-translate-x-1 transition-all duration-200 rounded cursor-pointer min-h-[44px]"
                       onClick={() => handleItemClick(it)}
                       aria-label={it.ariaLabel || it.label}
                     >
-                      <span className="text-lg sm:text-xl md:text-2xl font-semibold text-[#1a1a1a] tracking-wide group-hover:text-[#C06014] transition-colors duration-300">
+                      <span className="text-base sm:text-lg md:text-xl font-normal text-[#1C1C1C] tracking-normal group-hover:text-[#C06014] transition-colors duration-200">
                         {it.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-light text-[#C06014] font-mono">
+                      <span className="text-xs font-light text-[#5A5A5A] font-mono">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
                     </button>
                   ) : (
                     <a
-                      className="w-full flex items-center justify-between px-4 md:px-5 py-3 md:py-4 bg-black/[0.03] border-l-3 border-transparent hover:border-[#C06014] hover:bg-[#C06014]/10 hover:-translate-x-1 transition-all duration-300 rounded-md cursor-pointer min-h-[44px]"
+                      className="w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 bg-white/60 border-l-2 border-transparent hover:border-[#C06014] hover:bg-white hover:-translate-x-1 transition-all duration-200 rounded cursor-pointer min-h-[44px]"
                       href={it.link || '#'}
                       aria-label={it.ariaLabel || it.label}
                     >
-                      <span className="text-lg sm:text-xl md:text-2xl font-semibold text-[#1a1a1a] tracking-wide group-hover:text-[#C06014] transition-colors duration-300">
+                      <span className="text-base sm:text-lg md:text-xl font-normal text-[#1C1C1C] tracking-normal group-hover:text-[#C06014] transition-colors duration-200">
                         {it.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-light text-[#C06014] font-mono">
+                      <span className="text-xs font-light text-[#5A5A5A] font-mono">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
                     </a>
@@ -504,21 +660,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 </div>
               ))
             ) : (
-              <div className="text-center text-[#1a1a1a]/50">No items</div>
+              <div className="text-center text-[#1C1C1C]/50">No items</div>
             )}
           </nav>
 
           {/* CTA Button at Bottom */}
-          <div className="mt-auto pt-6 md:pt-8 border-t border-[#C06014]/40">
+          <div className="mt-auto pt-4 md:pt-6 border-t border-[#C06014]/30">
             <button
               onClick={() => {
-                const firstItem = items && items.length > 0 ? items[0] : null;
-                if (firstItem?.onClick) {
-                  firstItem.onClick();
                   toggleMenu();
+                if (onNavigate) {
+                  onNavigate('quote');
+                  // Scroll to categories section after navigation
+                  setTimeout(() => {
+                    const categoriesSection = document.getElementById('categories-section');
+                    if (categoriesSection) {
+                      categoriesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }, 100);
                 }
               }}
-              className="w-full px-6 md:px-8 py-4 md:py-5 bg-gradient-to-r from-[#C06014] to-[#a95311] text-white text-base md:text-lg font-bold rounded-full hover:-translate-y-1 hover:shadow-[0_6px_25px_rgba(192,96,20,0.5)] transition-all duration-300 uppercase tracking-wider min-h-[44px]"
+              className="w-full px-5 md:px-6 py-3 md:py-3.5 bg-[#C06014] text-white text-sm md:text-base font-normal rounded-full hover:bg-[#a95311] hover:shadow-lg transition-all duration-200 min-h-[44px]"
             >
               Explore Products
             </button>
@@ -529,7 +691,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       <style>{`
 .sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
 .sm-scope .staggered-menu-wrapper[data-open] { pointer-events: auto; }
-.sm-scope .staggered-menu-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 2em; background: transparent; z-index: 50; pointer-events: auto; }
+.sm-scope .staggered-menu-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 2em; background: transparent; z-index: 50; pointer-events: auto; }
 .sm-scope .staggered-menu-header > * { pointer-events: auto; }
 .sm-scope .sm-logo { display: flex; align-items: center; user-select: none; }
 .sm-scope .sm-logo-img { display: block; height: 120px; width: auto; object-fit: contain; }

@@ -84,7 +84,7 @@ export const products: Product[] = [
   { id: 'cu5', name: 'Vatil', category: 'cups', image: '/Products/Cup/VATIL.jpg', weightRange: '120-250g' },
 
   // Glass
-  { id: 'g1', name: 'Coffee Glass', category: 'glass', image: '/Products/Glass/GLASS COFFEE.jpg', weightRange: '60-120g' },
+  { id: 'g1', name: 'Coffee Glass', category: 'glass', image: '/Products/Glass/Coffee Glass (1).jpg', weightRange: '60-120g' },
   { id: 'g2', name: 'Coke Glass', category: 'glass', image: '/Products/Glass/GLASS COKE 1.jpg', weightRange: '70-130g' },
   { id: 'g3', name: 'Milk Glass', category: 'glass', image: '/Products/Glass/GLASS MILK.jpg', weightRange: '65-125g' },
   { id: 'g4', name: 'Plain Glass', category: 'glass', image: '/Products/Glass/GLASS PLAIN 1.jpg', weightRange: '50-100g' },
@@ -134,7 +134,7 @@ export const products: Product[] = [
   // Trays
   { id: 't1', name: 'Ashtalakshmi Tray', category: 'trays', image: '/Products/Trays/tray ashtalaksmi 2.jpg', weightRange: '300-600g' },
   { id: 't2', name: 'Nappu Tray', category: 'trays', image: '/Products/Trays/tray NAPPU 2.jpg', weightRange: '250-500g' },
-  { id: 't3', name: 'Shell Elephant Leg Tray', category: 'trays', image: '/Products/Trays/tray SHELL elephant leg 2.jpg', weightRange: '400-800g' },
+  { id: 't3', name: 'Shell Elephant Leg Tray', category: 'trays', image: '/Products/Trays/Silver Elephant Leg Tray.jpg', weightRange: '400-800g' },
 
   // Vel
   { id: 've1', name: 'Hollow Vel', category: 'vel', image: '/Products/Vel/VEL HOLLOW.jpg', weightRange: '200-400g' },

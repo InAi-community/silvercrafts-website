@@ -10,6 +10,20 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  
+  /* Hide scrollbar globally */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
 }
 
 @layer utilities {
@@ -105,7 +119,7 @@
   }
 
   .animate-scroll-left {
-    animation: scroll-left 24s linear infinite;
+    animation: scroll-left 45s linear infinite;
   }
 
   .animate-scroll-left:hover {
@@ -131,19 +145,19 @@
   }
 
   .animate-scroll-up {
-    animation: scroll-up 35s linear infinite;
+    animation: scroll-up 50s linear infinite;
   }
 
   .animate-scroll-down {
-    animation: scroll-down 35s linear infinite;
+    animation: scroll-down 50s linear infinite;
   }
 
   .animate-scroll-up-fast {
-    animation: scroll-up 15s linear infinite;
+    animation: scroll-up 25s linear infinite;
   }
 
   .animate-scroll-down-fast {
-    animation: scroll-down 15s linear infinite;
+    animation: scroll-down 25s linear infinite;
   }
 
   .animate-scroll-up:hover,

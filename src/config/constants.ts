@@ -18,7 +18,7 @@ export const COLORS = {
 
 // Timings (in milliseconds)
 export const TIMINGS = {
-  imageTransition: 3000,      // Factory image carousel
+  imageTransition: 5000,      // Factory image carousel (slower)
   carouselResume: 3000,       // Resume after navigation
   carouselMouseLeave: 1000,   // Resume after mouse leave
   scrollDelay: 300,           // DOM ready delay
@@ -60,7 +60,6 @@ export const FACTORY_IMAGES = [
   '/Factory images/silver crafts1528.jpg',
   '/Factory images/silver crafts1559.jpg',
   '/Factory images/silver crafts1835.jpg',
-  '/Factory images/silver crafts1887.jpg',
   '/Factory images/silver crafts1922.jpg',
   '/Factory images/silver crafts1976.jpg',
   '/Factory images/silver crafts2000.jpg',
@@ -112,8 +111,8 @@ export const QUOTE_STEPS = [
   },
   { 
     step: '3', 
-    title: 'Receive Proposal', 
-    desc: 'Get a tailored quote within 24 hours' 
+    title: 'Receive Quotation', 
+    desc: 'Get a tailored quote for your business' 
   }
 ] as const;
 

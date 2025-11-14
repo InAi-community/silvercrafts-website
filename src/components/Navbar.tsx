@@ -127,6 +127,25 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
   const defaultMenuColor = isWhiteBackground ? '#C06014' : '#fff';
   const openMenuColor = '#C06014'; // Always brown when open
 
+  // Handle login click (placeholder - implement your login logic here)
+  const handleLoginClick = () => {
+    // TODO: Implement login functionality
+    alert('Login functionality to be implemented');
+  };
+
+  /*
+   * NAVBAR LAYOUT OPTIONS - Change the navbarLayout prop below to switch:
+   * 
+   * 'option1': [Login] -------- [Silver Crafts™] -------- [☰ Menu]
+   *            (left)              (center)                (right)
+   * 
+   * 'option2': [☰ Menu] [Login] -------------------- [Silver Crafts™]
+   *            (left side)                           (right corner)
+   * 
+   * 'option3': [Silver Crafts™] -------------------- [Login] [☰ Menu]  ← ACTIVE
+   *            (left)                                (right side)
+   */
+
   return (
     <StaggeredMenu
       position="right"
@@ -140,6 +159,9 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
       accentColor="#C06014"
       isFixed={true}
       onLogoClick={() => onNavigate('home')}
+      navbarLayout="option3" // Option 3: Silver Crafts™ on left, Login + Menu on right
+      onLoginClick={handleLoginClick}
+      onNavigate={onNavigate} // Pass navigation handler
     />
   );
 }
