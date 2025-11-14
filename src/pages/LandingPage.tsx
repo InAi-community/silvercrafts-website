@@ -152,7 +152,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white border-t border-[#EDEAE2]">
         <div className="max-w-5xl mx-auto text-center space-y-3 sm:space-y-4 animate-on-scroll">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1C1C1C] animate-on-scroll px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#1C1C1C] animate-on-scroll px-4">
             Certified silver manufacturing excellence
           </h2>
           <p className="text-sm md:text-base text-[#666666]">
@@ -218,7 +218,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="animate-on-scroll">
             <div className="text-center mb-8 sm:mb-10 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1C1C1C] mb-3 sm:mb-4 px-4">Our story</h2>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#1C1C1C] mb-3 sm:mb-4 px-4">Our story</h2>
               <div className="inline-block mb-3 sm:mb-4">
                 <div className="w-12 sm:w-14 md:w-16 h-0.5 sm:h-1 bg-[#C06014] mx-auto rounded-full"></div>
               </div>
@@ -226,7 +226,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
             <div className="bg-white rounded-xl sm:rounded-2xl border border-[#E8E4DA] shadow-sm p-5 sm:p-6 md:p-8 lg:p-12 space-y-5 sm:space-y-6">
               <div className="space-y-4 sm:space-y-5 text-left">
-                <p className="text-base sm:text-lg md:text-xl text-[#1C1C1C] leading-relaxed font-medium">
+                <p className="text-sm sm:text-base md:text-lg text-[#1C1C1C] leading-relaxed font-medium">
                 Silver Crafts began with one goal — to manufacture silver articles that jewellery retailers can rely on.
               </p>
                 
@@ -238,7 +238,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 
                 <div className="h-px bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent my-4 sm:my-5 md:my-6"></div>
                 
-                <p className="text-base sm:text-lg md:text-xl text-[#1C1C1C] leading-relaxed font-medium italic">
+                <p className="text-sm sm:text-base md:text-lg text-[#1C1C1C] leading-relaxed font-medium italic">
                   We are here to be your long-term silver partner — to grow your business, and to grow with you.
               </p>
               </div>
@@ -249,7 +249,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
             Why choose Silver Crafts
           </h2>
 
@@ -268,7 +268,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
                   <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#C06014]" />
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-[#1C1C1C]">{item.title}</h3>
+                <h3 className="text-sm sm:text-base font-semibold text-[#1C1C1C]">{item.title}</h3>
                 <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
               </div>
               );
@@ -279,7 +279,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-[#1C1C1C] mb-6 sm:mb-7 md:mb-8 animate-on-scroll px-4">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center text-[#1C1C1C] mb-6 sm:mb-7 md:mb-8 animate-on-scroll px-4">
             Trusted by the best
           </h3>
 
@@ -305,7 +305,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-28 px-4 sm:px-6 bg-gradient-to-b from-[#FDFBF7] to-white border-t border-[#EDEAE2]">
         <div className="max-w-4xl mx-auto text-center animate-on-scroll">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#1C1C1C] leading-tight mb-6 sm:mb-7 md:mb-8 px-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-[#1C1C1C] leading-tight mb-6 sm:mb-7 md:mb-8 px-4">
             Plan your next silver collection with us
           </h2>
           <button
