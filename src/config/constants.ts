@@ -53,7 +53,6 @@ export const RETAILER_LOGOS = [
 // Factory Images
 export const FACTORY_IMAGES = [
   '/Factory images/silver crafts1217.jpg',
-  '/Factory images/silver crafts1248.jpg',
   '/Factory images/silver crafts1286.jpg',
   '/Factory images/silver crafts1338.jpg',
   '/Factory images/silver crafts1385.jpg',

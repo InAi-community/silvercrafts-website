@@ -253,26 +253,53 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             With us you can
           </h2>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-            {FEATURES.map((item, index) => {
-              // Map icons to features
-              const icons = [TrendingUp, IndianRupee, Star, Truck, Receipt];
-              const Icon = icons[index];
-              
-              return (
-              <div
-                key={index}
-                className="text-left space-y-3 sm:space-y-4 p-5 sm:p-6 md:p-8 rounded-lg sm:rounded-xl bg-white border border-[#E8E4DA] animate-on-scroll"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#C06014]" />
+          {/* Reverse Pyramid Layout: 3 cards top row, 2 cards centered bottom row */}
+          <div className="space-y-4 sm:space-y-6 md:space-y-8">
+            {/* First Row: 3 Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+              {FEATURES.slice(0, 3).map((item, index) => {
+                // Map icons to features
+                const icons = [TrendingUp, IndianRupee, Star, Truck, Receipt];
+                const Icon = icons[index];
+                
+                return (
+                <div
+                  key={index}
+                  className="text-left space-y-3 sm:space-y-4 p-5 sm:p-6 md:p-8 rounded-lg sm:rounded-xl bg-white border border-[#E8E4DA] animate-on-scroll"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#C06014]" />
+                  </div>
+                  <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
+                  <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
                 </div>
-                <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
-                <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
-              </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Second Row: 2 Cards Centered */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
+              {FEATURES.slice(3, 5).map((item, index) => {
+                // Map icons to features (indices 3 and 4)
+                const icons = [TrendingUp, IndianRupee, Star, Truck, Receipt];
+                const Icon = icons[index + 3];
+                
+                return (
+                <div
+                  key={index + 3}
+                  className="text-left space-y-3 sm:space-y-4 p-5 sm:p-6 md:p-8 rounded-lg sm:rounded-xl bg-white border border-[#E8E4DA] animate-on-scroll"
+                  style={{ animationDelay: `${(index + 3) * 100}ms` }}
+                >
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#C06014]" />
+                  </div>
+                  <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
+                  <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
+                </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
