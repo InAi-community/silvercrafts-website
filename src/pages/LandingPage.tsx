@@ -72,7 +72,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       {/* Factory Carousel Section with Title */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#FAF9F7] border-t border-[#EDEAE2]">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
             Hands that make Silver Crafts
           </h2>
 
@@ -161,7 +161,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white border-t border-[#EDEAE2]">
         <div className="max-w-5xl mx-auto text-center space-y-3 sm:space-y-4 animate-on-scroll">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] animate-on-scroll px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-[#1C1C1C] animate-on-scroll px-4">
             Verified for your peace of mind
           </h2>
           <p className="text-sm md:text-base text-[#666666]">
@@ -189,7 +189,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section id="categories" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
             Our products, for your business
           </h2>
 
@@ -227,7 +227,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="animate-on-scroll">
             <div className="text-center mb-8 sm:mb-10 md:mb-12">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] mb-3 sm:mb-4 px-4">Our story</h2>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-[#1C1C1C] mb-3 sm:mb-4 px-4">Our story</h2>
               <div className="inline-block mb-3 sm:mb-4">
                 <div className="w-12 sm:w-14 md:w-16 h-0.5 sm:h-1 bg-[#C06014] mx-auto rounded-full"></div>
               </div>
@@ -315,7 +315,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto animate-on-scroll">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-6 sm:mb-7 md:mb-8 animate-on-scroll px-4">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-center text-[#1C1C1C] mb-6 sm:mb-7 md:mb-8 animate-on-scroll px-4">
             Trusted by the best
           </h3>
 

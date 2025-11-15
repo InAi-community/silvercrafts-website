@@ -143,7 +143,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       {/* Categories Section */}
       <section id="categories-section" className="py-10 sm:py-12 md:py-14 px-4 sm:px-6 bg-[#FAF9F7] border-b border-[#EDEAE2]">
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-9 md:mb-10 px-4">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-center text-[#1C1C1C] mb-8 sm:mb-9 md:mb-10 px-4">
             Select Category
           </h3>
 
@@ -416,7 +416,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
-            <h3 className="text-xl sm:text-2xl font-light text-[#1C1C1C] mb-5 sm:mb-6 pr-8">Add business details</h3>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-[#1C1C1C] mb-5 sm:mb-6 pr-8">Add business details</h3>
 
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div>
