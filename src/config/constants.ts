@@ -78,7 +78,7 @@ export const HOME_CAROUSEL_IMAGES = [
   '/Home page carousel/7.webp',
   '/Home page carousel/8.webp',
   '/Home page carousel/9.webp',
-  '/Home page carousel/10.webp',
+  '/Home page carousel/Vel.webp',
   '/Home page carousel/11.webp',
   '/Home page carousel/12.webp',
   '/Home page carousel/13.webp',

@@ -69,84 +69,93 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         </div>
       </section>
 
-      <section className="relative h-[60vh] sm:h-[70vh] md:h-[90vh] lg:h-[95vh] bg-black overflow-hidden border-t-2 border-b-2 border-[#C06014]/30">
-        {/* Mobile: Single Carousel (all 15 images) */}
-        <div className="md:hidden absolute inset-0">
-          <div className="w-full h-full relative overflow-hidden">
-            {FACTORY_IMAGES.map((image, index) => (
-              <div 
-                key={`mobile-${index}`}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  leftImageIndex === index ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <img
-                  src={image}
-                  alt={`Silver Crafts Manufacturing ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/30"></div>
-          </div>
-          
-          {/* Golden border dividers */}
-          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
-        </div>
+      {/* Factory Carousel Section with Title */}
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#FAF9F7] border-t border-[#EDEAE2]">
+        <div className="max-w-7xl mx-auto animate-on-scroll">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-center text-[#1C1C1C] mb-8 sm:mb-10 md:mb-12 animate-on-scroll px-4">
+            Hands that make Silver Crafts
+          </h2>
 
-        {/* Desktop: Dual Carousel (split screen) */}
-        <div className="hidden md:flex absolute inset-0">
-          {/* Left Side - Cycles through all images */}
-          <div className="w-1/2 h-full relative overflow-hidden">
-            {FACTORY_IMAGES.map((image, index) => (
-              <div 
-                key={`left-${index}`}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  leftImageIndex === index ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <img
-                  src={image}
-                  alt={`Silver Crafts Manufacturing ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] bg-black overflow-hidden rounded-lg sm:rounded-xl border-2 border-[#C06014]/30">
+            {/* Mobile: Single Carousel (all images) */}
+            <div className="md:hidden absolute inset-0">
+              <div className="w-full h-full relative overflow-hidden">
+                {FACTORY_IMAGES.map((image, index) => (
+                  <div 
+                    key={`mobile-${index}`}
+                    className={`absolute inset-0 transition-opacity duration-1000 ${
+                      leftImageIndex === index ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`Silver Crafts Manufacturing ${index + 1}`}
+                      className="w-full h-full object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
               </div>
-            ))}
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/30"></div>
-          </div>
+              
+              {/* Golden border dividers */}
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
+            </div>
 
-          {/* Center Divider */}
-          <div className="w-0.5 bg-gradient-to-b from-transparent via-[#C06014]/60 to-transparent"></div>
-
-          {/* Right Side - Cycles through all images (offset) */}
-          <div className="w-1/2 h-full relative overflow-hidden">
-            {FACTORY_IMAGES.map((image, index) => (
-              <div 
-                key={`right-${index}`}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  rightImageIndex === index ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <img
-                  src={image}
-                  alt={`Silver Crafts Craftsmanship ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+            {/* Desktop: Dual Carousel (split screen) */}
+            <div className="hidden md:flex absolute inset-0">
+              {/* Left Side - Cycles through all images */}
+              <div className="w-1/2 h-full relative overflow-hidden">
+                {FACTORY_IMAGES.map((image, index) => (
+                  <div 
+                    key={`left-${index}`}
+                    className={`absolute inset-0 transition-opacity duration-1000 ${
+                      leftImageIndex === index ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`Silver Crafts Manufacturing ${index + 1}`}
+                      className="w-full h-full object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
               </div>
-            ))}
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/30"></div>
+
+              {/* Center Divider */}
+              <div className="w-0.5 bg-gradient-to-b from-transparent via-[#C06014]/60 to-transparent"></div>
+
+              {/* Right Side - Cycles through all images (offset) */}
+              <div className="w-1/2 h-full relative overflow-hidden">
+                {FACTORY_IMAGES.map((image, index) => (
+                  <div 
+                    key={`right-${index}`}
+                    className={`absolute inset-0 transition-opacity duration-1000 ${
+                      rightImageIndex === index ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`Silver Crafts Craftsmanship ${index + 1}`}
+                      className="w-full h-full object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
+              </div>
+              
+              {/* Golden border dividers */}
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
+            </div>
           </div>
-          
-          {/* Golden border dividers */}
-          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
         </div>
       </section>
 
