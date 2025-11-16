@@ -398,7 +398,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         )}
 
         <header
-          className="staggered-menu-header fixed top-0 left-0 right-0 w-full flex flex-row items-center justify-between px-4 py-6 sm:px-6 md:px-12 lg:px-16 md:py-8 bg-transparent z-50 pointer-events-auto"
+          className="staggered-menu-header fixed top-0 left-0 right-0 w-full flex flex-row items-center justify-between px-4 py-8 sm:px-6 sm:py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 bg-transparent z-50 pointer-events-auto"
           aria-label="Main navigation header"
           style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
         >
@@ -531,7 +531,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               {/* Logo/Brand Name on Left - Explicitly positioned */}
               <div 
                 className="flex items-center cursor-pointer pointer-events-auto group"
-                style={{ marginRight: 'auto' }}
+                style={{ marginRight: 'auto', marginLeft: '0' }}
             onClick={() => {
               if (onLogoClick) {
                 onLogoClick();
@@ -545,7 +545,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               style={{ 
                 color: menuButtonColor,
                     fontFamily: "'Raleway', sans-serif",
-                    letterSpacing: '0.02em'
+                    letterSpacing: '0.02em',
+                    marginLeft: '0',
+                    paddingLeft: '0'
               }}
             >
                   Silver Crafts<sup className="text-xs ml-0.5" style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</sup>
@@ -617,7 +619,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         >
           <button
             onClick={toggleMenu}
-            className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 md:w-11 md:h-11 flex items-center justify-center border border-[#1C1C1C]/20 rounded-full hover:border-[#007c9e] hover:bg-white hover:rotate-90 transition-all duration-200 z-50"
+            className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 md:w-11 md:h-11 flex items-center justify-center border border-[#1C1C1C]/20 rounded-full hover:border-[#a8bba3] hover:bg-white hover:rotate-90 transition-all duration-200 z-50"
             aria-label="Close menu"
           >
             <X className="w-5 h-5 text-[#1C1C1C]" />
@@ -632,11 +634,11 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 >
                   {it.onClick ? (
                     <button
-                      className="w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 bg-white/60 border-l-2 border-transparent hover:border-[#007c9e] hover:bg-white hover:-translate-x-1 transition-all duration-200 rounded cursor-pointer min-h-[44px]"
+                      className="w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 bg-white/60 border-l-2 border-transparent hover:border-[#a8bba3] hover:bg-white hover:-translate-x-1 transition-all duration-200 rounded cursor-pointer min-h-[44px]"
                       onClick={() => handleItemClick(it)}
                       aria-label={it.ariaLabel || it.label}
                     >
-                      <span className="text-base sm:text-lg md:text-xl font-normal text-[#1C1C1C] tracking-normal group-hover:text-[#007c9e] transition-colors duration-200">
+                      <span className="text-base sm:text-lg md:text-xl font-normal text-[#1C1C1C] tracking-normal group-hover:text-[#a8bba3] transition-colors duration-200">
                         {it.label}
                       </span>
                       <span className="text-xs font-light text-[#5A5A5A] font-mono">
@@ -645,11 +647,11 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                     </button>
                   ) : (
                     <a
-                      className="w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 bg-white/60 border-l-2 border-transparent hover:border-[#007c9e] hover:bg-white hover:-translate-x-1 transition-all duration-200 rounded cursor-pointer min-h-[44px]"
+                      className="w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 bg-white/60 border-l-2 border-transparent hover:border-[#a8bba3] hover:bg-white hover:-translate-x-1 transition-all duration-200 rounded cursor-pointer min-h-[44px]"
                       href={it.link || '#'}
                       aria-label={it.ariaLabel || it.label}
                     >
-                      <span className="text-base sm:text-lg md:text-xl font-normal text-[#1C1C1C] tracking-normal group-hover:text-[#007c9e] transition-colors duration-200">
+                      <span className="text-base sm:text-lg md:text-xl font-normal text-[#1C1C1C] tracking-normal group-hover:text-[#a8bba3] transition-colors duration-200">
                         {it.label}
                       </span>
                       <span className="text-xs font-light text-[#5A5A5A] font-mono">
@@ -665,7 +667,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           </nav>
 
           {/* CTA Button at Bottom */}
-          <div className="mt-auto pt-4 md:pt-6 border-t border-[#007c9e]/30">
+          <div className="mt-auto pt-4 md:pt-6 border-t border-[#a8bba3]/30">
             <button
               onClick={() => {
                   toggleMenu();
@@ -680,7 +682,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   }, 100);
                 }
               }}
-              className="w-full px-5 md:px-6 py-3 md:py-3.5 bg-[#007c9e] text-white text-sm md:text-base font-normal rounded-full hover:bg-[#006b8a] hover:shadow-lg transition-all duration-200 min-h-[44px]"
+              className="w-full px-5 md:px-6 py-3 md:py-3.5 bg-[#a8bba3] text-white text-sm md:text-base font-normal rounded-full hover:bg-[#93a991] hover:shadow-lg transition-all duration-200 min-h-[44px]"
             >
               Explore Products
             </button>
@@ -691,7 +693,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       <style>{`
 .sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
 .sm-scope .staggered-menu-wrapper[data-open] { pointer-events: auto; }
-.sm-scope .staggered-menu-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 2em; background: transparent; z-index: 50; pointer-events: auto; }
+.sm-scope .staggered-menu-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; z-index: 50; pointer-events: auto; }
 .sm-scope .staggered-menu-header > * { pointer-events: auto; }
 .sm-scope .sm-logo { display: flex; align-items: center; user-select: none; }
 .sm-scope .sm-logo-img { display: block; height: 120px; width: auto; object-fit: contain; }

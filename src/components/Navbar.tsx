@@ -124,8 +124,8 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
   ];
 
   // Menu button color: brown when menu is open OR on white background, white otherwise
-  const defaultMenuColor = isWhiteBackground ? '#007c9e' : '#fff';
-  const openMenuColor = '#007c9e'; // Accent when open
+  const defaultMenuColor = isWhiteBackground ? '#a8bba3' : '#fff';
+  const openMenuColor = '#a8bba3'; // Accent when open
 
   // Handle login click (placeholder - implement your login logic here)
   const handleLoginClick = () => {
@@ -156,7 +156,7 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
       openMenuButtonColor={openMenuColor}
       changeMenuColorOnOpen={true}
       colors={['#1A1A1A', '#2A2A2A']}
-      accentColor="#007c9e"
+      accentColor="#a8bba3"
       isFixed={true}
       onLogoClick={() => onNavigate('home')}
       navbarLayout="option3" // Option 3: Silver Crafts™ on left, Login + Menu on right

@@ -69,6 +69,38 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     });
   }, []);
 
+  // Select all filtered products
+  const selectAllFiltered = useCallback(() => {
+    const newItems = filteredProducts.filter(
+      (product) => !quoteItems.some((item) => item.product.id === product.id)
+    );
+    
+    if (newItems.length > 0) {
+      setQuoteItems((prevItems) => [
+        ...prevItems,
+        ...newItems.map((product) => ({ product, quantity: 1 }))
+      ]);
+    }
+  }, [filteredProducts, quoteItems]);
+
+  // Deselect all filtered products
+  const deselectAllFiltered = useCallback(() => {
+    const filteredProductIds = filteredProducts.map((p) => p.id);
+    setQuoteItems((prevItems) => 
+      prevItems.filter((item) => !filteredProductIds.includes(item.product.id))
+    );
+  }, [filteredProducts]);
+
+  // Check if all filtered products are already in quote
+  const allFilteredSelected = filteredProducts.every((product) =>
+    quoteItems.some((item) => item.product.id === product.id)
+  );
+
+  // Check if any filtered products are in quote
+  const anyFilteredSelected = filteredProducts.some((product) =>
+    quoteItems.some((item) => item.product.id === product.id)
+  );
+
   const uniqueProductCount = quoteItems.length;
 
   const removeItem = useCallback((productId: string) => {
@@ -109,7 +141,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               {QUOTE_STEPS.map((milestone, index) => (
                 <div key={index} className="flex items-start gap-2 sm:gap-3">
                   <div className="flex flex-col items-center">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#007c9e] text-white flex items-center justify-center font-medium text-xs flex-shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#a8bba3] text-white flex items-center justify-center font-medium text-xs flex-shrink-0">
                       {milestone.step}
                     </div>
                     {index < 2 && (
@@ -160,11 +192,11 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   });
                 }
               }}
-              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#007c9e] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
+              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#a8bba3] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
               aria-label="Scroll categories left"
               type="button"
             >
-              <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#007c9e]" />
+              <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#a8bba3]" />
             </button>
             <button
               onClick={(e) => {
@@ -177,11 +209,11 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   });
                 }
               }}
-              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#007c9e] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
+              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#a8bba3] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
               aria-label="Scroll categories right"
               type="button"
             >
-              <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#007c9e]" />
+              <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#a8bba3]" />
             </button>
             
             {/* Carousel Container */}
@@ -204,7 +236,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                     type="button"
                     onClick={() => handleCategoryClick(category.id)}
                     className={`group relative flex-shrink-0 w-28 h-28 sm:w-30 sm:h-30 md:w-32 md:h-32 rounded-lg sm:rounded-xl overflow-hidden border-2 ${
-                      isSelected ? 'border-[#007c9e] bg-[#F0FAFD] shadow-lg' : 'border-[#E8E4DA] bg-white'
+                      isSelected ? 'border-[#a8bba3] bg-[#F3F7F1] shadow-lg' : 'border-[#E8E4DA] bg-white'
                     } transition-all duration-300 cursor-pointer hover:shadow-lg min-h-[44px]`}
                     aria-label={`Select ${category.name} category`}
                   >
@@ -230,7 +262,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                       </>
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#C06014]/10 to-[#C06014]/5">
-                        <span className="text-xs sm:text-sm font-medium text-[#007c9e] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 border-[#007c9e] bg-white">
+                        <span className="text-xs sm:text-sm font-medium text-[#a8bba3] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 border-[#a8bba3] bg-white">
                           All
                         </span>
                       </div>
@@ -247,13 +279,55 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       {/* Products Section - Always Visible, No Animations */}
       <section id="products-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] mb-2 px-4">
-              {selectedCategory === 'all' ? 'All Products' : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
-            </h2>
-            <p className="text-sm sm:text-base text-[#5A5A5A]">
-              {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} available
-            </p>
+          <div className="relative mb-8 sm:mb-10 md:mb-12 px-4">
+            {/* Centered Heading and count */}
+            <div className="text-center">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] mb-2">
+                {selectedCategory === 'all' ? 'All Products' : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
+              </h2>
+              <p className="text-sm sm:text-base text-[#5A5A5A]">
+                {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} available
+              </p>
+            </div>
+            
+            {/* Select All / Deselect All Buttons - Positioned on Right */}
+            {filteredProducts.length > 0 && (
+              <div className="absolute right-4 top-0 flex flex-wrap items-start justify-end gap-3">
+                {/* Select All Button */}
+                <button
+                  onClick={selectAllFiltered}
+                  disabled={allFilteredSelected}
+                  className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm font-medium transition-all duration-300 min-h-[44px] inline-flex items-center gap-2 ${
+                    allFilteredSelected
+                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                      : 'bg-[#a8bba3] text-white hover:bg-[#93a991] hover:shadow-lg'
+                  }`}
+                >
+                  {allFilteredSelected ? (
+                    <>
+                      <span className="text-lg">✓</span>
+                      All Selected
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4" />
+                      Select All
+                    </>
+                  )}
+                </button>
+
+                {/* Deselect All Button */}
+                {anyFilteredSelected && (
+                  <button
+                    onClick={deselectAllFiltered}
+                    className="px-5 sm:px-6 py-2.5 sm:py-3 border-2 border-[#a8bba3] text-[#a8bba3] rounded-full text-sm font-medium transition-all duration-300 hover:bg-[#a8bba3] hover:text-white min-h-[44px] inline-flex items-center gap-2"
+                  >
+                    <X className="w-4 h-4" />
+                    Deselect All
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {filteredProducts.length > 0 ? (
@@ -261,7 +335,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-lg sm:rounded-xl overflow-hidden border-2 border-[#E8E4DA] hover:border-[#007c9e] hover:shadow-xl transition-all duration-300 group"
+                  className="bg-white rounded-lg sm:rounded-xl overflow-hidden border-2 border-[#E8E4DA] hover:border-[#a8bba3] hover:shadow-xl transition-all duration-300 group"
                 >
                   <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden bg-gradient-to-br from-[#FDFBF7] to-[#F5F5F5] flex items-center justify-center p-3 sm:p-4">
                     <img
@@ -282,7 +356,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                     </h3>
                     <button
                       onClick={() => addToQuote(product)}
-                      className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-[#007c9e] text-white rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:bg-[#006b8a] hover:shadow-lg flex items-center justify-center gap-2 min-h-[44px]"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-[#a8bba3] text-white rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:bg-[#93a991] hover:shadow-lg flex items-center justify-center gap-2 min-h-[44px]"
                     >
                       <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       Add to Quote
@@ -294,13 +368,13 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
           ) : (
             <div className="text-center py-12 sm:py-16 md:py-20 px-4">
               <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#F5F5F5] rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <ShoppingCart className="w-10 h-10 sm:w-12 sm:h-12 text-[#007c9e] opacity-40" />
+                <ShoppingCart className="w-10 h-10 sm:w-12 sm:h-12 text-[#a8bba3] opacity-40" />
               </div>
               <h3 className="text-lg sm:text-xl font-normal text-[#1C1C1C] mb-2">No Products Available</h3>
               <p className="text-sm sm:text-base text-[#5A5A5A] mb-4 sm:mb-6">No products found in this category.</p>
               <button
                 onClick={() => handleCategoryClick('all')}
-                className="px-5 sm:px-6 py-2.5 sm:py-3 bg-[#007c9e] text-white rounded-full text-sm font-medium hover:bg-[#006b8a] transition-colors min-h-[44px]"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 bg-[#a8bba3] text-white rounded-full text-sm font-medium hover:bg-[#93a991] transition-colors min-h-[44px]"
               >
                 View All Products
               </button>
@@ -313,7 +387,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       {quoteItems.length > 0 && (
         <button
           onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed right-3 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-40 bg-[#007c9e] text-white px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-l-xl sm:rounded-l-2xl shadow-lg hover:bg-[#006b8a] transition-colors duration-300 flex flex-col items-center gap-1.5 sm:gap-2 min-w-[80px] sm:min-w-[90px] md:min-w-[100px]"
+          className="fixed right-3 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-40 bg-[#a8bba3] text-white px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-l-xl sm:rounded-l-2xl shadow-lg hover:bg-[#93a991] transition-colors duration-300 flex flex-col items-center gap-1.5 sm:gap-2 min-w-[80px] sm:min-w-[90px] md:min-w-[100px]"
         >
           <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
           <div className="text-center">
@@ -340,7 +414,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
         <div className="h-full flex flex-col">
           <div className="p-4 sm:p-5 md:p-6 border-b border-[#E8E4DA] flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
-              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-[#007c9e]" />
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-[#a8bba3]" />
               <h3 className="text-lg sm:text-xl font-normal text-[#1C1C1C]">Quote Summary</h3>
             </div>
             <button
@@ -365,7 +439,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                 >
                   <button
                     onClick={() => removeItem(item.product.id)}
-                    className="absolute top-2 right-2 text-[#A7A29A] hover:text-[#007c9e] transition-colors z-10 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    className="absolute top-2 right-2 text-[#A7A29A] hover:text-[#a8bba3] transition-colors z-10 min-h-[44px] min-w-[44px] flex items-center justify-center"
                   >
                     <X className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
@@ -395,7 +469,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
               </div>
               <button
                 onClick={() => setShowQuoteForm(true)}
-                className="w-full px-5 sm:px-6 py-3 bg-[#007c9e] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#006b8a] min-h-[44px]"
+                className="w-full px-5 sm:px-6 py-3 bg-[#a8bba3] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#93a991] min-h-[44px]"
               >
                 Get Quote
               </button>
@@ -428,7 +502,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   required
                   value={formData.businessName}
                   onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#007c9e] transition-colors text-sm sm:text-base"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text-sm sm:text-base"
                   placeholder="Your business name"
                 />
               </div>
@@ -442,7 +516,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   required
                   value={formData.yourName}
                   onChange={(e) => setFormData({ ...formData, yourName: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#007c9e] transition-colors text-sm sm:text-base"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text-sm sm:text-base"
                   placeholder="Your full name"
                 />
               </div>
@@ -456,7 +530,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   required
                   value={formData.designation}
                   onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#007c9e] transition-colors text-sm sm:text-base"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text sm sm:text-base"
                   placeholder="e.g. Owner, Manager, Buyer"
                 />
               </div>
@@ -470,7 +544,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#007c9e] transition-colors text-sm sm:text-base"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text-sm sm:text-base"
                   placeholder="+91 98765 43210"
                 />
               </div>
@@ -484,7 +558,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#007c9e] transition-colors text-sm sm:text-base"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text-sm sm:text-base"
                   placeholder="your@email.com"
                 />
               </div>
@@ -497,14 +571,14 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   type="text"
                   value={formData.gstin}
                   onChange={(e) => setFormData({ ...formData, gstin: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#C06014] transition-colors text-sm sm:text-base"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text-sm sm:text-base"
                   placeholder="GST Number"
                 />
               </div>
 
               <button
                 type="submit"
-            className="w-full px-5 sm:px-6 py-3 bg-[#007c9e] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#006b8a] mt-4 sm:mt-6 min-h-[44px]"
+            className="w-full px-5 sm:px-6 py-3 bg-[#a8bba3] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#93a991] mt-4 sm:mt-6 min-h-[44px]"
               >
                 Submit Quote Request
               </button>
@@ -517,8 +591,8 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
       {showConfirmation && (
         <div className="fixed inset-0 bg-[#1A1A1A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6">
           <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 max-w-lg w-full text-center relative animate-scale-in border border-[#E8E4DA] shadow-lg max-h-[90vh] overflow-y-auto">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#007c9e]/12 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-              <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-[#007c9e]" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#a8bba3]/12 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-[#a8bba3]" />
             </div>
 
             <h3 className="text-xl sm:text-2xl font-normal text-[#1C1C1C] mb-3 sm:mb-4 px-2">
@@ -541,7 +615,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   setShowSidebar(false);
                   onNavigate('home');
                 }}
-                className="flex-1 px-5 sm:px-6 py-3 bg-[#007c9e] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#006b8a] min-h-[44px]"
+                className="flex-1 px-5 sm:px-6 py-3 bg-[#a8bba3] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#93a991] min-h-[44px]"
               >
                 Back to Home
               </button>
@@ -551,7 +625,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   setQuoteItems([]);
                   setShowSidebar(false);
                 }}
-                className="flex-1 px-5 sm:px-6 py-3 border border-[#007c9e] text-[#007c9e] rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#007c9e]/5 min-h-[44px]"
+                className="flex-1 px-5 sm:px-6 py-3 border border-[#a8bba3] text-[#a8bba3] rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#a8bba3]/5 min-h-[44px]"
               >
                 Explore More Products
               </button>

@@ -4,8 +4,8 @@
 
 // Brand Colors
 export const COLORS = {
-  primary: '#007c9e',      // Teal
-  primaryHover: '#006b8a', // Darker teal
+  primary: '#a8bba3',      // Sage green (slightly deeper)
+  primaryHover: '#93a991', // Darker sage
   dark: '#1A1A1A',         // Dark text
   darkGray: '#1C1C1C',     // Section headings
   mediumGray: '#5A5A5A',   // Body text
@@ -55,9 +55,7 @@ export const FACTORY_IMAGES = [
   '/Factory images/silver crafts1217.jpg',
   '/Factory images/silver crafts1286.jpg',
   '/Factory images/silver crafts1301.jpg',
-  '/Factory images/silver crafts1338.jpg',
   '/Factory images/silver crafts1385.jpg',
-  '/Factory images/silver crafts1456.jpg',
   '/Factory images/silver crafts1528.jpg',
   '/Factory images/silver crafts1559.jpg',
   '/Factory images/silver crafts1604.jpg',

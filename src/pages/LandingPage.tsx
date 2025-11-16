@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { TrendingUp, Star, Truck, Receipt, IndianRupee, ArrowRight } from 'lucide-react';
 import { 
   FACTORY_IMAGES, 
@@ -40,13 +40,22 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
   return (
     <div className="bg-[#FAF9F7]">
+      <style>{`
+        .hero-image {
+          object-position: 65% 35%;
+        }
+        @media (min-width: 768px) {
+          .hero-image {
+            object-position: center 35%;
+          }
+        }
+      `}</style>
       <section className="min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/albums/main hero photo.jpg"
             alt="Silver Crafts Hero"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: '60% bottom' }}
+            className="w-full h-full object-cover hero-image"
             loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/70 via-[#1A1A1A]/40 to-transparent sm:from-[#1A1A1A]/60 sm:via-[#1A1A1A]/30"></div>
@@ -76,7 +85,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             Hands that make Silver Crafts
           </h2>
 
-          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] bg-black overflow-hidden rounded-lg sm:rounded-xl border-2 border-[#007c9e]/30">
+          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] bg-[#F5EFE6] overflow-hidden rounded-lg sm:rounded-xl border border-[#E8E4DA]">
             {/* Mobile: Single Carousel (all images) */}
             <div className="md:hidden absolute inset-0">
               <div className="w-full h-full relative overflow-hidden">
@@ -99,15 +108,15 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
               </div>
               
-              {/* Golden border dividers */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
+              {/* Light border dividers */}
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
             </div>
 
             {/* Desktop: Dual Carousel (split screen) */}
-            <div className="hidden md:flex absolute inset-0">
+            <div className="hidden md:flex absolute inset-0 gap-4 sm:gap-5 md:gap-6 p-4 sm:p-5 md:p-6">
               {/* Left Side - Cycles through all images */}
-              <div className="w-1/2 h-full relative overflow-hidden">
+              <div className="flex-1 h-full relative overflow-hidden rounded-lg sm:rounded-xl">
                 {FACTORY_IMAGES.map((image, index) => (
                   <div 
                     key={`left-${index}`}
@@ -125,13 +134,14 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 ))}
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
+                
+                {/* Border dividers for left frame */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
               </div>
 
-              {/* Center Divider */}
-              <div className="w-0.5 bg-gradient-to-b from-transparent via-[#007c9e]/60 to-transparent"></div>
-
               {/* Right Side - Cycles through all images (offset) */}
-              <div className="w-1/2 h-full relative overflow-hidden">
+              <div className="flex-1 h-full relative overflow-hidden rounded-lg sm:rounded-xl">
                 {FACTORY_IMAGES.map((image, index) => (
                   <div 
                     key={`right-${index}`}
@@ -149,11 +159,11 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 ))}
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
+                
+                {/* Border dividers for right frame */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
               </div>
-              
-              {/* Golden border dividers */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
             </div>
           </div>
         </div>
@@ -173,7 +183,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             {CERTIFICATIONS.map((cert, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center"
+                className="flex items-center justify-center w-[28%] sm:w-auto"
               >
                 <img
                   src={cert.src}
@@ -229,7 +239,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             <div className="text-center mb-8 sm:mb-10 md:mb-12">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-[#1C1C1C] mb-3 sm:mb-4 px-4">Our story</h2>
               <div className="inline-block mb-3 sm:mb-4">
-                <div className="w-12 sm:w-14 md:w-16 h-0.5 sm:h-1 bg-[#007c9e] mx-auto rounded-full"></div>
+                <div className="w-12 sm:w-14 md:w-16 h-0.5 sm:h-1 bg-[#a8bba3] mx-auto rounded-full"></div>
               </div>
             </div>
 
@@ -278,7 +288,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#007c9e]" />
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#a8bba3]" />
                   </div>
                   <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
                   <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
@@ -301,7 +311,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   style={{ animationDelay: `${(index + 3) * 100}ms` }}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#007c9e]" />
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#a8bba3]" />
                   </div>
                   <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
                   <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
@@ -352,7 +362,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 smoothScrollToElement('quote-hero');
               }, 100);
             }}
-            className="px-6 py-3 sm:px-8 sm:py-4 bg-[#007c9e] text-white rounded-full text-sm sm:text-base font-normal transition-colors duration-300 hover:bg-[#006b8a] flex items-center justify-center gap-2 mx-auto min-h-[44px]"
+            className="px-6 py-3 sm:px-8 sm:py-4 bg-[#a8bba3] text-white rounded-full text-sm sm:text-base font-normal transition-colors duration-300 hover:bg-[#93a991] flex items-center justify-center gap-2 mx-auto min-h-[44px]"
           >
             Build your quote
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
