@@ -76,7 +76,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             Hands that make Silver Crafts
           </h2>
 
-          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] bg-black overflow-hidden rounded-lg sm:rounded-xl border-2 border-[#C06014]/30">
+          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] bg-black overflow-hidden rounded-lg sm:rounded-xl border-2 border-[#007c9e]/30">
             {/* Mobile: Single Carousel (all images) */}
             <div className="md:hidden absolute inset-0">
               <div className="w-full h-full relative overflow-hidden">
@@ -100,8 +100,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               </div>
               
               {/* Golden border dividers */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
             </div>
 
             {/* Desktop: Dual Carousel (split screen) */}
@@ -128,7 +128,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               </div>
 
               {/* Center Divider */}
-              <div className="w-0.5 bg-gradient-to-b from-transparent via-[#C06014]/60 to-transparent"></div>
+              <div className="w-0.5 bg-gradient-to-b from-transparent via-[#007c9e]/60 to-transparent"></div>
 
               {/* Right Side - Cycles through all images (offset) */}
               <div className="w-1/2 h-full relative overflow-hidden">
@@ -152,8 +152,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               </div>
               
               {/* Golden border dividers */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C06014]/60 to-transparent"></div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#007c9e]/60 to-transparent"></div>
             </div>
           </div>
         </div>
@@ -229,7 +229,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             <div className="text-center mb-8 sm:mb-10 md:mb-12">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-[#1C1C1C] mb-3 sm:mb-4 px-4">Our story</h2>
               <div className="inline-block mb-3 sm:mb-4">
-                <div className="w-12 sm:w-14 md:w-16 h-0.5 sm:h-1 bg-[#C06014] mx-auto rounded-full"></div>
+                <div className="w-12 sm:w-14 md:w-16 h-0.5 sm:h-1 bg-[#007c9e] mx-auto rounded-full"></div>
               </div>
             </div>
 
@@ -278,7 +278,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#C06014]" />
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#007c9e]" />
                   </div>
                   <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
                   <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
@@ -301,7 +301,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   style={{ animationDelay: `${(index + 3) * 100}ms` }}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#F5EFE6] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#C06014]" />
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#007c9e]" />
                   </div>
                   <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C]">{item.title}</h3>
                   <p className="text-sm text-[#5A5A5A] leading-relaxed">{item.desc}</p>
@@ -352,7 +352,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 smoothScrollToElement('quote-hero');
               }, 100);
             }}
-            className="px-6 py-3 sm:px-8 sm:py-4 bg-[#C06014] text-white rounded-full text-sm sm:text-base font-normal transition-colors duration-300 hover:bg-[#a95311] flex items-center justify-center gap-2 mx-auto min-h-[44px]"
+            className="px-6 py-3 sm:px-8 sm:py-4 bg-[#007c9e] text-white rounded-full text-sm sm:text-base font-normal transition-colors duration-300 hover:bg-[#006b8a] flex items-center justify-center gap-2 mx-auto min-h-[44px]"
           >
             Build your quote
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />

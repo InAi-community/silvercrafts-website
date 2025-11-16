@@ -4,8 +4,8 @@
 
 // Brand Colors
 export const COLORS = {
-  primary: '#C06014',      // Beige/Brown
-  primaryHover: '#a95311', // Darker beige
+  primary: '#007c9e',      // Teal
+  primaryHover: '#006b8a', // Darker teal
   dark: '#1A1A1A',         // Dark text
   darkGray: '#1C1C1C',     // Section headings
   mediumGray: '#5A5A5A',   // Body text
@@ -54,16 +54,21 @@ export const RETAILER_LOGOS = [
 export const FACTORY_IMAGES = [
   '/Factory images/silver crafts1217.jpg',
   '/Factory images/silver crafts1286.jpg',
+  '/Factory images/silver crafts1301.jpg',
   '/Factory images/silver crafts1338.jpg',
   '/Factory images/silver crafts1385.jpg',
+  '/Factory images/silver crafts1456.jpg',
   '/Factory images/silver crafts1528.jpg',
   '/Factory images/silver crafts1559.jpg',
+  '/Factory images/silver crafts1604.jpg',
   '/Factory images/silver crafts1835.jpg',
+  '/Factory images/silver crafts1909.jpg',
   '/Factory images/silver crafts1922.jpg',
   '/Factory images/silver crafts1976.jpg',
   '/Factory images/silver crafts2000.jpg',
   '/Factory images/silver crafts2085.jpg',
   '/Factory images/silver crafts2122.jpg',
+  '/Factory images/silver crafts2211.jpg',
   '/Factory images/silver crafts2306.jpg'
 ] as const;
 

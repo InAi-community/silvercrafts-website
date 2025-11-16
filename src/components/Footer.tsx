@@ -21,14 +21,14 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-6 md:mb-8">
           <a 
             href="mailto:info@silvercrafts.in"
-            className="flex items-center gap-2 text-[#C0C0C0] hover:text-[#C06014] transition-colors duration-200 min-h-[44px] px-4"
+            className="flex items-center gap-2 text-[#C0C0C0] hover:text-[#007c9e] transition-colors duration-200 min-h-[44px] px-4"
           >
             <Mail className="w-5 h-5 flex-shrink-0" />
             <span className="text-sm md:text-base break-all">info@silvercrafts.in</span>
           </a>
           <a 
             href="tel:+919876543210"
-            className="flex items-center gap-2 text-[#C0C0C0] hover:text-[#C06014] transition-colors duration-200 min-h-[44px] px-4"
+            className="flex items-center gap-2 text-[#C0C0C0] hover:text-[#007c9e] transition-colors duration-200 min-h-[44px] px-4"
           >
             <Phone className="w-5 h-5 flex-shrink-0" />
             <span className="text-sm md:text-base">+91 98765 43210</span>

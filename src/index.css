@@ -93,7 +93,7 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background: #C06014;
+    background: #007c9e;
     border-radius: 50%;
     animation: confetti 2s ease-out;
   }
