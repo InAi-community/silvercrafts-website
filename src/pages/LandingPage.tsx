@@ -53,7 +53,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       <section className="min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="/albums/main hero photo.jpg"
+            src="/albums/hero.jpg"
             alt="Silver Crafts Hero"
             className="w-full h-full object-cover hero-image"
             loading="eager"
