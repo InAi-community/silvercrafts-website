@@ -52,22 +52,20 @@ export const RETAILER_LOGOS = [
 
 // Factory Images
 export const FACTORY_IMAGES = [
-  '/Factory images/silver crafts1217.jpg',
-  '/Factory images/silver crafts1286.jpg',
-  '/Factory images/silver crafts1301.jpg',
-  '/Factory images/silver crafts1385.jpg',
-  '/Factory images/silver crafts1528.jpg',
-  '/Factory images/silver crafts1559.jpg',
-  '/Factory images/silver crafts1604.jpg',
-  '/Factory images/silver crafts1835.jpg',
-  '/Factory images/silver crafts1909.jpg',
-  '/Factory images/silver crafts1922.jpg',
-  '/Factory images/silver crafts1976.jpg',
-  '/Factory images/silver crafts2000.jpg',
-  '/Factory images/silver crafts2085.jpg',
-  '/Factory images/silver crafts2122.jpg',
-  '/Factory images/silver crafts2211.jpg',
-  '/Factory images/silver crafts2306.jpg'
+  '/Hands that make Silver Crafts/silver crafts1217.jpg',
+  '/Hands that make Silver Crafts/silver crafts1286.jpg',
+  '/Hands that make Silver Crafts/silver crafts1301.jpg',
+  '/Hands that make Silver Crafts/silver crafts1385.jpg',
+  '/Hands that make Silver Crafts/silver crafts1456-2.jpg',
+  '/Hands that make Silver Crafts/silver crafts1528.jpg',
+  '/Hands that make Silver Crafts/silver crafts1559.jpg',
+  '/Hands that make Silver Crafts/silver crafts1604.jpg',
+  '/Hands that make Silver Crafts/silver crafts1835.jpg',
+  '/Hands that make Silver Crafts/silver crafts1909.jpg',
+  '/Hands that make Silver Crafts/silver crafts1922.jpg',
+  '/Hands that make Silver Crafts/silver crafts2000.jpg',
+  '/Hands that make Silver Crafts/silver crafts2085.jpg',
+  '/Hands that make Silver Crafts/silver crafts2122.jpg'
 ] as const;
 
 // Home Page Carousel Images
