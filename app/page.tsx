@@ -1,4 +1,7 @@
+'use client'
+
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TrendingUp, Star, Truck, Receipt, IndianRupee, ArrowRight } from 'lucide-react';
 import { 
   FACTORY_IMAGES, 
@@ -7,13 +10,9 @@ import {
   CERTIFICATIONS, 
   FEATURES, 
   TIMINGS 
-} from '../config/constants';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { smoothScrollToElement } from '../utils/animations';
-
-interface LandingPageProps {
-  onNavigate: (page: 'home' | 'quote') => void;
-}
+} from '@/config/constants';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { smoothScrollToElement } from '@/utils/animations';
 
 // Convert carousel images array to objects with src and caption
 const albumImages = HOME_CAROUSEL_IMAGES.map((src, index) => ({
@@ -21,12 +20,21 @@ const albumImages = HOME_CAROUSEL_IMAGES.map((src, index) => ({
   caption: `Silver Craft ${index + 1}`
 }));
 
-export default function LandingPage({ onNavigate }: LandingPageProps) {
+export default function HomePage() {
+  const router = useRouter();
   const [leftImageIndex, setLeftImageIndex] = useState(0);
   const [rightImageIndex, setRightImageIndex] = useState(Math.floor(FACTORY_IMAGES.length / 2));
 
   // Setup scroll animations
   useScrollAnimation();
+
+  const handleNavigate = (page: 'home' | 'quote') => {
+    if (page === 'quote') {
+      router.push('/quotation');
+    } else {
+      router.push('/');
+    }
+  };
 
   // Cycle through all factory images
   useEffect(() => {
@@ -68,7 +76,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             </p>
             <div className="flex gap-3 sm:gap-4 pt-2 sm:pt-4">
               <button
-                onClick={() => onNavigate('quote')}
+                onClick={() => handleNavigate('quote')}
                 className="px-6 py-3 sm:px-8 sm:py-3 bg-transparent border-2 border-white text-white rounded-full text-sm sm:text-base font-medium transition-all duration-300 hover:bg-white hover:text-[#1A1A1A] min-h-[44px]"
               >
                 Explore Products
@@ -210,7 +218,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   key={`${album.src}-${index}`}
                   className="flex-shrink-0 w-40 sm:w-44 md:w-48 cursor-pointer"
                   onClick={() => {
-                    onNavigate('quote');
+                    handleNavigate('quote');
                     // Scroll to hero section after navigation
                     setTimeout(() => {
                       smoothScrollToElement('quote-hero');
@@ -356,7 +364,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </h2>
           <button
             onClick={() => {
-              onNavigate('quote');
+              handleNavigate('quote');
               // Scroll to hero section after navigation
               setTimeout(() => {
                 smoothScrollToElement('quote-hero');
@@ -372,3 +380,4 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
     </div>
   );
 }
+

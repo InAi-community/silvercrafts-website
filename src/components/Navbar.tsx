@@ -1,6 +1,8 @@
+'use client'
+
 import { useState, useEffect } from 'react';
 import StaggeredMenu from './StaggeredMenu';
-import { smoothScrollToElement } from '../utils/animations';
+import { smoothScrollToElement } from '@/utils/animations';
 
 interface NavbarProps {
   onNavigate: (page: 'home' | 'quote') => void;
@@ -9,7 +11,7 @@ interface NavbarProps {
 
 export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
   const [isWhiteBackground, setIsWhiteBackground] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (currentPage !== 'home') {

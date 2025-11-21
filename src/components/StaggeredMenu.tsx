@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { X, Menu } from 'lucide-react';
@@ -39,9 +41,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   position = 'right',
   colors = ['#B19EEF', '#5227FF'],
   items = [],
-  socialItems = [],
-  displaySocials = true,
-  displayItemNumbering = true,
+  socialItems: _socialItems = [],
+  displaySocials: _displaySocials = true,
+  displayItemNumbering: _displayItemNumbering = true,
   className,
   menuButtonColor = '#fff',
   openMenuButtonColor = '#fff',
@@ -67,8 +69,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   const iconRef = useRef<HTMLSpanElement>(null);
 
   const textInnerRef = useRef<HTMLSpanElement>(null);
-  const textWrapRef = useRef<HTMLSpanElement>(null);
-  const [textLines, setTextLines] = useState(['Menu', 'Close']);
+  const [, setTextLines] = useState(['Menu', 'Close']);
 
   const openTlRef = useRef<gsap.core.Timeline | null>(null);
   const closeTweenRef = useRef<gsap.core.Tween | null>(null);

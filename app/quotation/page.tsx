@@ -1,19 +1,20 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { X, ShoppingCart, Sparkles, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
-import { categories, products, Product } from '../data/products';
-import BackButton from '../components/BackButton';
-import { QUOTE_STEPS, CAROUSEL_CONFIG } from '../config/constants';
+'use client'
 
-interface QuotationPageProps {
-  onNavigate: (page: 'home' | 'quote') => void;
-}
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { X, ShoppingCart, Sparkles, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { categories, products, Product } from '@/data/products';
+import BackButton from '@/components/BackButton';
+import { QUOTE_STEPS, CAROUSEL_CONFIG } from '@/config/constants';
 
 interface QuoteItem {
   product: Product;
   quantity: number;
 }
 
-export default function QuotationPage({ onNavigate }: QuotationPageProps) {
+export default function QuotationPage() {
+  const router = useRouter();
+  
   // State Management
   const [allProducts] = useState<Product[]>(products); // All products from data
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products); // Currently displayed products
@@ -31,6 +32,14 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     email: '',
     gstin: ''
   });
+
+  const handleNavigate = (page: 'home' | 'quote') => {
+    if (page === 'home') {
+      router.push('/');
+    } else {
+      router.push('/quotation');
+    }
+  };
 
   // Initialize: Show all products on mount
   useEffect(() => {
@@ -123,7 +132,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
 
   return (
     <div className="bg-[#FAF9F7] min-h-screen">
-      <BackButton onNavigate={onNavigate} />
+      <BackButton onNavigate={handleNavigate} />
       
       {/* Hero Section */}
       <section id="quote-hero" className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-14 md:pb-16 px-4 sm:px-6 bg-[#FDFBF7] border-b border-[#EDEAE2]">
@@ -192,7 +201,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   });
                 }
               }}
-              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#a8bba3] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
+              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-100 border-2 border-[#a8bba3] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
               aria-label="Scroll categories left"
               type="button"
             >
@@ -209,7 +218,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   });
                 }
               }}
-              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-[100] bg-white hover:bg-gray-100 border-2 border-[#a8bba3] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
+              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-100 border-2 border-[#a8bba3] rounded-full p-2 sm:p-2.5 md:p-3 shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
               aria-label="Scroll categories right"
               type="button"
             >
@@ -613,7 +622,7 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
                   setShowConfirmation(false);
                   setQuoteItems([]);
                   setShowSidebar(false);
-                  onNavigate('home');
+                  handleNavigate('home');
                 }}
                 className="flex-1 px-5 sm:px-6 py-3 bg-[#a8bba3] text-white rounded-full text-sm font-medium transition-colors duration-300 hover:bg-[#93a991] min-h-[44px]"
               >
@@ -636,3 +645,4 @@ export default function QuotationPage({ onNavigate }: QuotationPageProps) {
     </div>
   );
 }
+
