@@ -93,7 +93,7 @@ export default function HomePage() {
             Hands that make Silver Crafts
           </h2>
 
-          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] bg-[#F5EFE6] overflow-hidden rounded-lg sm:rounded-xl border border-[#E8E4DA]">
+          <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] overflow-hidden">
             {/* Mobile: Single Carousel (all images) */}
             <div className="md:hidden absolute inset-0">
               <div className="w-full h-full relative overflow-hidden">
@@ -115,16 +115,12 @@ export default function HomePage() {
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
               </div>
-              
-              {/* Light border dividers */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
             </div>
 
             {/* Desktop: Dual Carousel (split screen) */}
-            <div className="hidden md:flex absolute inset-0 gap-4 sm:gap-5 md:gap-6 p-4 sm:p-5 md:p-6">
+            <div className="hidden md:flex absolute inset-0 gap-4 sm:gap-5 md:gap-6">
               {/* Left Side - Cycles through all images */}
-              <div className="flex-1 h-full relative overflow-hidden rounded-lg sm:rounded-xl">
+              <div className="flex-1 h-full relative overflow-hidden">
                 {FACTORY_IMAGES.map((image, index) => (
                   <div 
                     key={`left-${index}`}
@@ -142,14 +138,10 @@ export default function HomePage() {
                 ))}
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
-                
-                {/* Border dividers for left frame */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
               </div>
 
               {/* Right Side - Cycles through all images (offset) */}
-              <div className="flex-1 h-full relative overflow-hidden rounded-lg sm:rounded-xl">
+              <div className="flex-1 h-full relative overflow-hidden">
                 {FACTORY_IMAGES.map((image, index) => (
                   <div 
                     key={`right-${index}`}
@@ -167,10 +159,6 @@ export default function HomePage() {
                 ))}
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
-                
-                {/* Border dividers for right frame */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#E8E4DA] to-transparent"></div>
               </div>
             </div>
           </div>
