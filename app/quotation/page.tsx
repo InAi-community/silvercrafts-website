@@ -289,11 +289,11 @@ export default function QuotationPage() {
       {/* Products Section - Always Visible, No Animations */}
       <section id="products-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8 sm:mb-10 md:mb-12 px-4">
-            {/* Heading and Buttons Container */}
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+          <div className="mb-8 sm:mb-10 md:mb-12">
+            {/* Header with Title and Purity Toggle */}
+            <div className="relative mb-4 sm:mb-5">
               {/* Centered Heading and count */}
-              <div className="text-center lg:text-left flex-1">
+              <div className="text-center">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#1C1C1C] mb-2">
                   {selectedCategory === 'all' ? 'All Products' : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
                 </h2>
@@ -302,45 +302,119 @@ export default function QuotationPage() {
                 </p>
               </div>
               
-              {/* Select All / Deselect All Buttons */}
-              {filteredProducts.length > 0 && (
-                <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3">
-                  {/* Select All Button */}
-                  <button
-                    onClick={selectAllFiltered}
-                    disabled={allFilteredSelected}
-                    className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm font-medium transition-all duration-300 min-h-[44px] inline-flex items-center gap-2 ${
-                      allFilteredSelected
-                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        : 'bg-[#a8bba3] text-white hover:bg-[#93a991] hover:shadow-lg'
-                    }`}
-                  >
-                    {allFilteredSelected ? (
-                      <>
-                        <span className="text-lg">✓</span>
-                        All Selected
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="w-4 h-4" />
-                        Select All
-                      </>
-                    )}
-                  </button>
-
-                  {/* Deselect All Button */}
-                  {anyFilteredSelected && (
+              {/* Purity Toggle - Right side on desktop, below title on mobile */}
+              <div className="absolute top-0 right-0 hidden sm:block">
+                <div className="bg-white rounded-full px-3 py-2 border border-[#E8E4DA] shadow-sm relative">
+                  <div className="inline-flex gap-1.5 p-0.5 bg-[#F5F5F5] rounded-full">
                     <button
-                      onClick={deselectAllFiltered}
-                      className="px-5 sm:px-6 py-2.5 sm:py-3 border-2 border-[#a8bba3] text-[#a8bba3] rounded-full text-sm font-medium transition-all duration-300 hover:bg-[#a8bba3] hover:text-white min-h-[44px] inline-flex items-center gap-2"
+                      type="button"
+                      onClick={() => setFormData({ ...formData, purity: '80' })}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        formData.purity === '80'
+                          ? 'bg-white text-[#1A1A1A] shadow-sm'
+                          : 'bg-transparent text-[#5A5A5A] hover:text-[#1A1A1A]'
+                      }`}
                     >
-                      <X className="w-4 h-4" />
-                      Deselect All
+                      80%
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, purity: '92.5' })}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        formData.purity === '92.5'
+                          ? 'bg-white text-[#1A1A1A] shadow-sm'
+                          : 'bg-transparent text-[#5A5A5A] hover:text-[#1A1A1A]'
+                      }`}
+                    >
+                      92.5%
+                    </button>
+                  </div>
+                  {formData.purity === '92.5' && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 sm:w-80 p-3 bg-[#FFF8F0] border border-[#F5D6A8] rounded-lg shadow-lg z-50">
+                      <p className="text-[10px] sm:text-xs text-[#5A5A5A] leading-relaxed">
+                        <span className="font-medium text-[#1A1A1A]">Note:</span> 80% purity items are available from ready stock. 92.5% purity is made to order and requires additional production time.
+                      </p>
+                    </div>
                   )}
                 </div>
-              )}
+              </div>
+              
+              {/* Purity Toggle - Mobile: Below title */}
+              <div className="flex justify-center mt-4 sm:hidden">
+                <div className="bg-white rounded-full px-3 py-2 border border-[#E8E4DA] shadow-sm relative">
+                  <div className="inline-flex gap-1.5 p-0.5 bg-[#F5F5F5] rounded-full">
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, purity: '80' })}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        formData.purity === '80'
+                          ? 'bg-white text-[#1A1A1A] shadow-sm'
+                          : 'bg-transparent text-[#5A5A5A] hover:text-[#1A1A1A]'
+                      }`}
+                    >
+                      80%
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, purity: '92.5' })}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        formData.purity === '92.5'
+                          ? 'bg-white text-[#1A1A1A] shadow-sm'
+                          : 'bg-transparent text-[#5A5A5A] hover:text-[#1A1A1A]'
+                      }`}
+                    >
+                      92.5%
+                    </button>
+                  </div>
+                  {formData.purity === '92.5' && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[90vw] max-w-xs p-3 bg-[#FFF8F0] border border-[#F5D6A8] rounded-lg shadow-lg z-50">
+                      <p className="text-[10px] text-[#5A5A5A] leading-relaxed">
+                        <span className="font-medium text-[#1A1A1A]">Note:</span> 80% purity items are available from ready stock. 92.5% purity is made to order and requires additional production time.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
+            
+            {/* Select All / Deselect All Buttons - Centered below title */}
+            {filteredProducts.length > 0 && (
+              <div className={`flex flex-wrap items-center justify-center gap-3 ${formData.purity === '92.5' ? 'mt-24 sm:mt-0' : ''}`}>
+                {/* Select All Button */}
+                <button
+                  onClick={selectAllFiltered}
+                  disabled={allFilteredSelected}
+                  className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm font-medium transition-all duration-300 min-h-[44px] inline-flex items-center gap-2 ${
+                    allFilteredSelected
+                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                      : 'bg-[#a8bba3] text-white hover:bg-[#93a991] hover:shadow-lg'
+                  }`}
+                >
+                  {allFilteredSelected ? (
+                    <>
+                      <span className="text-lg">✓</span>
+                      All Selected
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4" />
+                      Select All
+                    </>
+                  )}
+                </button>
+
+                {/* Deselect All Button */}
+                {anyFilteredSelected && (
+                  <button
+                    onClick={deselectAllFiltered}
+                    className="px-5 sm:px-6 py-2.5 sm:py-3 border-2 border-[#a8bba3] text-[#a8bba3] rounded-full text-sm font-medium transition-all duration-300 hover:bg-[#a8bba3] hover:text-white min-h-[44px] inline-flex items-center gap-2"
+                  >
+                    <X className="w-4 h-4" />
+                    Deselect All
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {filteredProducts.length > 0 ? (
@@ -350,33 +424,33 @@ export default function QuotationPage() {
                   key={product.id}
                   className="bg-white rounded-lg sm:rounded-xl overflow-hidden border-2 border-[#E8E4DA] hover:border-[#a8bba3] hover:shadow-xl transition-all duration-300 group"
                 >
-                  <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden bg-gradient-to-br from-[#FDFBF7] to-[#F5F5F5] flex items-center justify-center p-3 sm:p-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 max-w-full"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/logos/Main logo.png';
-                        target.className = 'w-full h-full object-contain opacity-30';
-                      }}
-                    />
+                    <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden bg-gradient-to-br from-[#FDFBF7] to-[#F5F5F5] flex items-center justify-center p-3 sm:p-4">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 max-w-full"
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/logos/Main logo.png';
+                          target.className = 'w-full h-full object-contain opacity-30';
+                        }}
+                      />
+                    </div>
+                    <div className="p-4 sm:p-5">
+                      <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C] mb-3 min-h-[40px] sm:min-h-[48px]">
+                        {product.name}
+                      </h3>
+                      <button
+                        onClick={() => addToQuote(product)}
+                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-[#a8bba3] text-white rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:bg-[#93a991] hover:shadow-lg flex items-center justify-center gap-2 min-h-[44px]"
+                      >
+                        <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        Add to Quote
+                      </button>
+                    </div>
                   </div>
-                  <div className="p-4 sm:p-5">
-                    <h3 className="text-sm sm:text-base font-normal text-[#1C1C1C] mb-3 min-h-[40px] sm:min-h-[48px]">
-                      {product.name}
-                    </h3>
-                    <button
-                      onClick={() => addToQuote(product)}
-                      className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-[#a8bba3] text-white rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:bg-[#93a991] hover:shadow-lg flex items-center justify-center gap-2 min-h-[44px]"
-                    >
-                      <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      Add to Quote
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           ) : (
             <div className="text-center py-12 sm:py-16 md:py-20 px-4">
@@ -400,7 +474,7 @@ export default function QuotationPage() {
       {quoteItems.length > 0 && (
         <button
           onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed right-3 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-40 bg-[#a8bba3] text-white px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-l-xl sm:rounded-l-2xl shadow-lg hover:bg-[#93a991] transition-colors duration-300 flex flex-col items-center gap-1.5 sm:gap-2 min-w-[80px] sm:min-w-[90px] md:min-w-[100px]"
+          className="fixed right-3 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-[60] bg-[#a8bba3] text-white px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-l-xl sm:rounded-l-2xl shadow-lg hover:bg-[#93a991] transition-colors duration-300 flex flex-col items-center gap-1.5 sm:gap-2 min-w-[80px] sm:min-w-[90px] md:min-w-[100px]"
         >
           <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
           <div className="text-center">
@@ -587,43 +661,6 @@ export default function QuotationPage() {
                   className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-[#E8E4DA] rounded-lg focus:outline-none focus:border-[#a8bba3] transition-colors text-sm sm:text-base"
                   placeholder="GST Number"
                 />
-              </div>
-
-              <div>
-                <label className="block text-xs sm:text-sm font-medium text-[#1A1A1A] mb-1.5 sm:mb-2">
-                  Purity *
-                </label>
-                <div className="inline-flex gap-2 p-1 bg-[#F5F5F5] rounded-lg">
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, purity: '80' })}
-                    className={`px-6 sm:px-8 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 ${
-                      formData.purity === '80'
-                        ? 'bg-white text-[#1A1A1A] shadow-sm'
-                        : 'bg-transparent text-[#5A5A5A] hover:text-[#1A1A1A]'
-                    }`}
-                  >
-                    80%
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, purity: '92.5' })}
-                    className={`px-6 sm:px-8 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 ${
-                      formData.purity === '92.5'
-                        ? 'bg-white text-[#1A1A1A] shadow-sm'
-                        : 'bg-transparent text-[#5A5A5A] hover:text-[#1A1A1A]'
-                    }`}
-                  >
-                    92.5%
-                  </button>
-                </div>
-                {formData.purity === '92.5' && (
-                  <div className="mt-3 p-2.5 sm:p-3 bg-[#FFF8F0] border border-[#F5D6A8] rounded-lg">
-                    <p className="text-xs text-[#5A5A5A] leading-relaxed">
-                      <span className="font-medium text-[#1A1A1A]">Note:</span> 80% purity items are available from ready stock. 92.5% purity is made to order and requires additional production time.
-                    </p>
-                  </div>
-                )}
               </div>
 
               <button
